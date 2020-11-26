@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if (isset($_SESSION['user_role'])){
+    if ($_SESSION['user_role']=='admin'){
+        header('location: admin/dashboard.php');
+    }
+}
+
 if (isset($_GET['status'])){
     if ($_GET['status'] == 'logout'){
         require_once 'classes/Login.php';

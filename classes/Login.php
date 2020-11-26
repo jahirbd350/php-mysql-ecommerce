@@ -49,7 +49,12 @@ class Login
                     $_SESSION['user_id'] = $userInfo['id'];
                     $_SESSION['email'] = $userInfo['email_address'];
                     $_SESSION['name'] = $userInfo['first_name'].' '.$userInfo['last_name'];
-                    header('location: index.php');
+                    $_SESSION['user_role'] = $userInfo['user_role'];
+                    if ($userInfo['user_role']=='admin'){
+                        header('url: admin/dashboard.php');
+                    } elseif ($userInfo['user_role']=='user') {
+                        header('location: index.php');
+                    }
                 }
                 else {
                     $message = "Password is not correct!<br> Please reset your password.";

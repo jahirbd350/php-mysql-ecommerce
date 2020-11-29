@@ -1,6 +1,11 @@
 <?php
+session_start();
 $message = '';
 if (isset($_SESSION['user_role'])){
+    if ($_SESSION['user_role']=='user'){
+        $message = 'You are not admin!';
+        session_destroy();
+    }
     if ($_SESSION['user_role']=='admin'){
         header('location: dashboard.php');
     }

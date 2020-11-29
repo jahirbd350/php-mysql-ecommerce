@@ -51,7 +51,7 @@ class Login
                     $_SESSION['name'] = $userInfo['first_name'].' '.$userInfo['last_name'];
                     $_SESSION['user_role'] = $userInfo['user_role'];
                     if ($userInfo['user_role']=='admin'){
-                        header('url: admin/dashboard.php');
+                        header('location: http://localhost/isd-ecommerce/admin/dashboard.php');
                     } elseif ($userInfo['user_role']=='user') {
                         header('location: index.php');
                     }

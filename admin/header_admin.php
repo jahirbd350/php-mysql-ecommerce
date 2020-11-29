@@ -81,11 +81,11 @@ if (isset($_GET['status'])){
                                     <a class="nav-link" href="manage-products.php">Manage Products</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapse" aria-expanded="false" aria-controls="pagesCollapseError">
                                 Categories
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                            <div class="collapse" id="pagesCollapse" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="add-cetegory.php">Add Category</a>
                                     <a class="nav-link" href="manage-categories.php">Manage Categories</a>

@@ -1,37 +1,38 @@
 <?php
 
-
-class Login
+namespace App\classes;
+class Login extends Database
 {
     protected $link;
 
     public function __construct(){
-      $this->link = mysqli_connect('localhost', 'root', '', 'isd_ecommerce');
+      $this->link = Database::db_connect();
     }
 
     public function userRegistration(){
+        $link = Database::db_connect();
         if ($_POST['password'] != $_POST['confirmPassword']) {
             $message = "Password and Confirm Password Does not Match!!";
             return $message;
         } else {
             $sql = "SELECT * FROM users WHERE email_address='$_POST[email]'";
-            if (mysqli_query($this->link, $sql)) {
-                $queryResult = mysqli_query($this->link, $sql);
+            if (mysqli_query($link, $sql)) {
+                $queryResult = mysqli_query($link, $sql);
                 if (mysqli_num_rows($queryResult)>0) {
                     $message = "User email address already used!";
                     return $message;
                 } else {
                     $sql = "INSERT INTO users(first_name,last_name,gender,date_of_birth,email_address,phone_no,address,city,division,post_code,password)
                           VALUES ('$_POST[firstName]','$_POST[lastName]','$_POST[gender]','$_POST[dateOfBirth]','$_POST[email]','$_POST[phoneNo]','$_POST[address]','$_POST[city]','$_POST[division]','$_POST[postCode]','$_POST[password]')";
-                    if (mysqli_query($this->link, $sql)) {
+                    if (mysqli_query($link, $sql)) {
                         $message = "User Registration success. Please Login.";
                         return $message;
                     } else {
-                        die('User Registration Query Error : ' . mysqli_error($this->link));
+                        die('User Registration Query Error : ' . mysqli_error($link));
                     }
                 }
             } else {
-                die('User Check Error : ' . mysqli_error($this->link));
+                die('User Check Error : ' . mysqli_error($link));
             }
         }
     }
@@ -98,7 +99,7 @@ class Login
         return $message;
     }
 
-    public function userLogout()
+    public static function userLogout()
     {
         session_destroy();
         header('location: index.php');

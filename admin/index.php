@@ -1,6 +1,10 @@
 <?php
 session_start();
 $message = '';
+
+require '../vendor/autoload.php';
+use App\classes\Login;
+
 if (isset($_SESSION['user_role'])){
     if ($_SESSION['user_role']=='user'){
         $message = 'You are not admin!';
@@ -12,7 +16,6 @@ if (isset($_SESSION['user_role'])){
 }
 
 if (isset($_POST['signIn'])){
-    include_once '../classes/Login.php';
     $login = new Login();
     $message = $login->loginCheck();
 }

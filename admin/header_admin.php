@@ -5,11 +5,12 @@ if (isset($_SESSION['user_role'])){
         header('location: ../index.php');
     }
 }
+require_once '../vendor/autoload.php';
+use App\classes\Login;
+
 if (isset($_GET['status'])){
     if ($_GET['status'] == 'logout'){
-        require_once '../classes/Login.php';
-        $login = new Login();
-        $message = $login->userLogout();
+        $message = Login::userLogout();
     }
 }
 

@@ -1,12 +1,36 @@
 <?php
 $message='';
 include 'header_admin.php';
+
+require '../vendor/autoload.php';
+use App\classes\Category;
+
 if (isset($_POST['submit'])){
-    include_once '../classes/Category.php';
-    $category = new Category();
-    $message = $category->saveCategoryIngo();
+    $message = Category::saveCategoryIngo();
 }
 
+if (isset($_POST['update'])){
+    /*echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';*/
+    $message = Category::updateCategoryIngo();
+}
+
+
+
+if (isset($_GET['status'])){
+    if ($_GET['status']=='unpublish'){
+        $message = Category::unpublishCategory($_GET['id']);
+    }
+
+    if ($_GET['status']=='publish'){
+        $message = Category::publishCategory($_GET['id']);
+    }
+    if ($_GET['status']=='delete'){
+        $message = Category::deleteCategoryInfo($_GET['id']);
+    }
+}
+$allCategory = Category::allCategoryInfo();
 ?>
 
 <div id="layoutSidenav_content">
@@ -16,6 +40,7 @@ if (isset($_POST['submit'])){
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
+
                             <h4 class="card-title mb-4">Category Info</h4>
 
                             <h4 class="text-center"><?php echo $message; ?></h4>
@@ -71,39 +96,47 @@ if (isset($_POST['submit'])){
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <?php if (mysqli_num_rows($allCategory)>0) {
+                                    while ($allCategoryInfo = mysqli_fetch_assoc($allCategory)){
 
+                                ?>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><img src="" id="" alt="" height="50" width="80"/></td>
-                                    <td id=""></td>
+                                    <td><?php echo $allCategoryInfo['category_id']; ?></td>
+                                    <td><?php echo $allCategoryInfo['category_name']; ?></td>
+                                    <td><img src="<?php echo $allCategoryInfo['category_image']; ?>" id="" alt="" height="50" width="80"/></td>
+                                    <td id=""><?php echo $allCategoryInfo['category_is_active']; ?></td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-info sub-category-status"
-                                           id="{{ $sub_category->id }}" title="Published Sub Category">
+                                        <?php if  ($allCategoryInfo['category_is_active']==1) { ?>
+                                        <a href="?status=unpublish&&id=<?php echo $allCategoryInfo['category_id']; ?>" class="btn btn-sm btn-info sub-category-status"
+                                           id="" title="Published Sub Category">
                                             <i id="" class="fas fa-arrow-alt-circle-up"></i>
                                         </a>
+                                        <?php } else { ?>
 
-                                        <a href="" class="btn btn-sm btn-warning sub-category-status"
-                                           id="{{ $sub_category->id }}" title="Unpublished Sub Category">
+                                        <a href="?status=publish&&id=<?php echo $allCategoryInfo['category_id']; ?>" class="btn btn-sm btn-warning sub-category-status"
+                                           id="" title="Unpublished Sub Category">
                                             <i id="" class="fas fa-arrow-alt-circle-down"></i>
                                         </a>
+                                        <?php } ?>
 
-                                        <a href="" class="btn btn-sm btn-success edit-sub-category"
-                                           id="{{ $sub_category->id }}" title="Edit Sub Category">
+                                        <a href="" class="btn btn-sm btn-success edition"
+                                           id="" title="Edit Category" data-toggle="modal" data-target="#editModel">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="" class="btn btn-sm btn-danger delete-sub-category"
-                                           id="{{ $sub_category->id }}" title="Delete Sub Category">
+                                        <a href="?status=delete&&id=<?php echo $allCategoryInfo['category_id']; ?>" class="btn btn-sm btn-danger delete-sub-category"
+                                           id="" title="Delete Sub Category">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
+                                <?php } } ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="modal fade bs-example-modal-center" id="editModel" tabindex="-1" role="dialog"
                  aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -117,28 +150,35 @@ if (isset($_POST['submit'])){
                         <div class="modal-body">
                             <h5 id="updateCategoryImageError" class="text-center text-danger"></h5>
                             <form action="" method="POST" enctype="multipart/form-data" id="updateCategoryForm">
-
+                                <input type="hidden" name="id" class="form-control" id="update_id"/>
                                 <div class="form-group row mb-4">
-                                    <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Category name</label>
+                                    <label for="category_name" class="col-sm-3 col-form-label">Category name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="name" class="form-control" id="inputName"/>
+                                        <input type="text" name="category_name" class="form-control" id="category_name"/>
                                         <span id="nameUpdateError"></span>
-                                        <input type="hidden" name="id" class="form-control" id="inputId"/>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-4">
+                                    <label for="category_description" class="col-sm-3 col-form-label">Category description</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="category_description" class="form-control" id="category_description"/>
+                                        <span id="nameUpdateError"></span>
                                         <span></span>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Category Image</label>
                                     <div class="col-sm-9">
-                                        <input type="file" name="image" class="form-control-file" id="imageInput"/>
-                                        <img src="" alt="" height="80" width="120" id="inputImage"/>
+                                        <input type="file" name="category_image" class="form-control-file" id="category_image"/>
+                                        <img src="" alt="Can not load image!" height="80" width="120" id="inputImage"/>
                                         <span></span>
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-9">
                                         <div>
-                                            <button type="submit" class="btn btn-primary w-md">Update Category</button>
+                                            <button type="submit" name="update" class="btn btn-primary w-md">Update Category</button>
                                         </div>
                                     </div>
                                 </div>
@@ -152,3 +192,24 @@ if (isset($_POST['submit'])){
 include 'footer_admin.php';
 ?>
 
+<script>
+    $(document).ready(function (){
+        $('.edition').on('click',function (){
+            $('#editModel').modal('show');
+
+            $tr = $(this).closest('tr');
+
+            var data = $tr.children("td").map(function (){
+                return $(this).text();
+            }).get();
+
+            console.log(data);
+
+            $('#update_id').val(data[0]);
+            $('#category_name').val(data[1]);
+            $('#category_description').val(data[2]);
+            $('#category_image').val('src', data[3]);
+            $('#inputImage').val('src', data[3]);
+        });
+        });
+</script>

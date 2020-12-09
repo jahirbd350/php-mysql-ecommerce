@@ -1,11 +1,10 @@
 <?php
 $message = '';
 
+require 'vendor/autoload.php';
+use App\classes\Login;
+
 if (isset($_POST['signIn'])){
-    /*echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';*/
-    include_once 'classes/Login.php';
     $login = new Login();
     $message = $login->loginCheck();
 }

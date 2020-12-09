@@ -16,8 +16,6 @@ if (isset($_POST['update'])){
     $message = Category::updateCategoryIngo();
 }
 
-
-
 if (isset($_GET['status'])){
     if ($_GET['status']=='unpublish'){
         $message = Category::unpublishCategory($_GET['id']);
@@ -120,7 +118,7 @@ $allCategory = Category::allCategoryInfo();
                                         <?php } ?>
 
                                         <a href="" class="btn btn-sm btn-success edition"
-                                           id="" title="Edit Category" data-toggle="modal" data-target="#editModel">
+                                           id="" title="Edit Category" data-toggle="modal" data-id="<?php echo $allCategoryInfo['category_id']; ?>" data-target="#editModel">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="?status=delete&&id=<?php echo $allCategoryInfo['category_id']; ?>" class="btn btn-sm btn-danger delete-sub-category"
@@ -197,13 +195,31 @@ include 'footer_admin.php';
         $('.edition').on('click',function (){
             $('#editModel').modal('show');
 
-            $tr = $(this).closest('tr');
+           
+            var id=$(this).data('id');
+                //set href for cancel button
+            
+            /* $tr = $(this).closest('tr');
 
             var data = $tr.children("td").map(function (){
                 return $(this).text();
-            }).get();
+            }).get(); */
 
-            console.log(data);
+            $.ajax({
+                url: 'fetch-category-for-modal.php',  //the script to call to get data
+                method: "post",
+                data: {id: id},                        //you can insert url argumnets here to pass to api.php
+                                                        //for example "id=5&parent=6"
+                dataType: 'json',                //data format      
+                success: function(json){
+                    //here inside json variable you've the json returned by your PHP
+                    for(var i=0;i<json.length;i++){
+                        $('#items_container').append(json[i].item_id)
+                    }
+                }
+            });
+
+
 
             $('#update_id').val(data[0]);
             $('#category_name').val(data[1]);

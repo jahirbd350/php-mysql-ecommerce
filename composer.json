@@ -3,7 +3,8 @@
   "description" : " ",
   "keywords" : [],
   "require" : {
-    "ext-mysqli": "*"
+    "ext-mysqli": "*",
+    "ext-json": "*"
   },
   "require-dev" : {},
   "autoload" :{

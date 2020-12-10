@@ -4,15 +4,14 @@
 
  $link = Database::db_connect();
 
- $id = $_POST['id'];
+ $id = $_POST["id"];
 
- $sql = "SELECT * FROM category WHERE id='$id'";
-
+ $sql = "SELECT * FROM category WHERE category_id=$id";
  if (mysqli_query($link,$sql)){
      $data = mysqli_query($link,$sql);
-     $data = mysqli_fetch_assoc($data);
-     echo json_encode($data);
-
+     $result = mysqli_fetch_assoc($data);
+     echo json_encode($result);
  } else {
      die('Fetch Category Data Query Problem : '.mysqli_error($link));
  }
+

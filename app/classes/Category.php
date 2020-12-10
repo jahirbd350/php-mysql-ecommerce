@@ -17,16 +17,16 @@ class Category extends Database
                         move_uploaded_file($_FILES['category_image']['tmp_name'], $targetFile);
                         return $targetFile;
                     } else {
-                        echo ('Your file size is too large. Thanks !!!');
+                        $_SESSION['message'] = 'Your file size is too large. Thanks !!!';
                     }
                 } else {
-                    echo ('Please use jpg or png image file. Thanks !!!');
+                    $_SESSION['message'] = 'Please use jpg or png image file. Thanks !!!';
                 }
             } else {
-                echo ('File already exist. Thanks !!!');
+                $_SESSION['message'] = 'File already exist. Thanks !!!';
             }
         } else {
-            echo ('Please use an image file. Thanks !!!');
+            $_SESSION['message'] = 'Please use an image file. Thanks !!!';
         }
     }
 
@@ -90,27 +90,40 @@ class Category extends Database
         }
     }
 
-    public static function updateCategoryIngo(){
+    public static function updateCategoryInfo(){
         $link = Database::db_connect();
-        $targetFile = Category::uploadImage();
-        if (!$targetFile){
-            $sql = "UPDATE category SET 
+        if ($_FILES['category_image']['size']>0){
+            $targetFile = Category::uploadImage();
+            if (!$targetFile){
+                $sql = "UPDATE category SET 
                 category_name = '$_POST[category_name]',
                 category_description = '$_POST[category_description]'
-                WHERE category_id='$_POST[id]'";
+                WHERE category_id='$_POST[update_id]'";
 
-            if (mysqli_query($link,$sql)){
-                return $targetFile.'Category Info Updated successfully!';
+                if (mysqli_query($link,$sql)){
+                    return 'Category Info Updated successfully!';
+                } else {
+                    die('Category Update query error : '.mysqli_error($link));
+                }
             } else {
-                die('Category Update query error : '.mysqli_error($link));
-            }
-        } else {
-            $sql = "UPDATE category 
+                $sql = "UPDATE category 
                 SET 
                 category_name = '$_POST[category_name]',
                 category_description = '$_POST[category_description]',
                 category_image = '$targetFile'
-                WHERE category_id='$_POST[id]'";
+                WHERE category_id='$_POST[update_id]'";
+
+                if (mysqli_query($link,$sql)){
+                    return 'Category Info Updated successfully!';
+                } else {
+                    die('Category Update query error : '.mysqli_error($link));
+                }
+            }
+        } else {
+            $sql = "UPDATE category SET 
+                category_name = '$_POST[category_name]',
+                category_description = '$_POST[category_description]'
+                WHERE category_id='$_POST[update_id]'";
 
             if (mysqli_query($link,$sql)){
                 return 'Category Info Updated successfully!';
@@ -118,6 +131,5 @@ class Category extends Database
                 die('Category Update query error : '.mysqli_error($link));
             }
         }
-
     }
 }

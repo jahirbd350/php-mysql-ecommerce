@@ -6,14 +6,20 @@ require '../vendor/autoload.php';
 use App\classes\Category;
 
 if (isset($_POST['submit'])){
+    /*echo '<pre>';
+    echo '<br>'.'<br>'.'<br>';
+    print_r($_FILES);
+    echo '</pre>';*/
     $message = Category::saveCategoryIngo();
 }
 
 if (isset($_POST['update'])){
-    /*echo '<pre>';
-    print_r($_POST);
+/*
+    echo '<pre>';
+    echo '<br>'.'<br>'.'<br>';
+    print_r($_FILES);
     echo '</pre>';*/
-    $message = Category::updateCategoryIngo();
+    $message = Category::updateCategoryInfo();
 }
 
 if (isset($_GET['status'])){
@@ -42,6 +48,7 @@ $allCategory = Category::allCategoryInfo();
                             <h4 class="card-title mb-4">Category Info</h4>
 
                             <h4 class="text-center"><?php echo $message; ?></h4>
+                            <h4 class="text-center text-danger"><?php if (isset($_SESSION['message'])){  echo $_SESSION['message']; unset($_SESSION['message']);} ?></h4>
 
                             <form action="" method="POST" enctype="multipart/form-data">
                                 <div class="form-group row mb-4">
@@ -84,10 +91,11 @@ $allCategory = Category::allCategoryInfo();
                             <h4 class="text-center" id="resultMessage"></h4>
                             <table id="category-datatable" class="table table-bordered dt-responsive nowrap"
                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
+                                <thead class="text-center">
                                 <tr>
                                     <th>SL NO</th>
                                     <th>Category Name</th>
+                                    <th>Category Description</th>
                                     <th>Image</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -95,15 +103,18 @@ $allCategory = Category::allCategoryInfo();
                                 </thead>
                                 <tbody>
                                 <?php if (mysqli_num_rows($allCategory)>0) {
+                                    $ser_no = 0;
                                     while ($allCategoryInfo = mysqli_fetch_assoc($allCategory)){
+                                        $ser_no += 1;
 
                                 ?>
                                 <tr>
-                                    <td><?php echo $allCategoryInfo['category_id']; ?></td>
+                                    <td class="text-center"><?php echo $ser_no ?></td>
                                     <td><?php echo $allCategoryInfo['category_name']; ?></td>
-                                    <td><img src="<?php echo $allCategoryInfo['category_image']; ?>" id="" alt="" height="50" width="80"/></td>
-                                    <td id=""><?php echo $allCategoryInfo['category_is_active']; ?></td>
-                                    <td>
+                                    <td><?php echo $allCategoryInfo['category_description']; ?></td>
+                                    <td class="text-center"><img src="<?php echo $allCategoryInfo['category_image']; ?>" id="" alt="" height="50"/></td>
+                                    <td class="text-center"><?php if  ($allCategoryInfo['category_is_active']==1) { echo 'Active'; } else { echo 'Inactive';} ?></td>
+                                    <td class="text-center">
                                         <?php if  ($allCategoryInfo['category_is_active']==1) { ?>
                                         <a href="?status=unpublish&&id=<?php echo $allCategoryInfo['category_id']; ?>" class="btn btn-sm btn-info sub-category-status"
                                            id="" title="Published Sub Category">
@@ -148,7 +159,7 @@ $allCategory = Category::allCategoryInfo();
                         <div class="modal-body">
                             <h5 id="updateCategoryImageError" class="text-center text-danger"></h5>
                             <form action="" method="POST" enctype="multipart/form-data" id="updateCategoryForm">
-                                <input type="hidden" name="id" class="form-control" id="update_id"/>
+                                <input type="hidden" name="update_id" class="form-control" id="update_id"/>
                                 <div class="form-group row mb-4">
                                     <label for="category_name" class="col-sm-3 col-form-label">Category name</label>
                                     <div class="col-sm-9">
@@ -169,6 +180,8 @@ $allCategory = Category::allCategoryInfo();
                                     <label for="horizontal-email-input" class="col-sm-3 col-form-label">Category Image</label>
                                     <div class="col-sm-9">
                                         <input type="file" name="category_image" class="form-control-file" id="category_image"/>
+                                        <hr>
+                                        <label class="">Old Category Image</label><br>
                                         <img src="" alt="Can not load image!" height="80" width="120" id="inputImage"/>
                                         <span></span>
                                     </div>
@@ -195,37 +208,22 @@ include 'footer_admin.php';
         $('.edition').on('click',function (){
             $('#editModel').modal('show');
 
-           
             var id=$(this).data('id');
-                //set href for cancel button
-            
-            /* $tr = $(this).closest('tr');
-
-            var data = $tr.children("td").map(function (){
-                return $(this).text();
-            }).get(); */
 
             $.ajax({
-                url: 'fetch-category-for-modal.php',  //the script to call to get data
-                method: "post",
-                data: {id: id},                        //you can insert url argumnets here to pass to api.php
-                                                        //for example "id=5&parent=6"
-                dataType: 'json',                //data format      
-                success: function(json){
-                    //here inside json variable you've the json returned by your PHP
-                    for(var i=0;i<json.length;i++){
-                        $('#items_container').append(json[i].item_id)
-                    }
+                url:"http://localhost/isd-ecommerce/admin/fetch.php",
+                method:"POST",
+                data:{id:id},
+                dataType:"JSON",
+                success:function(data)
+                {
+                    $('#update_id').val(data.category_id);
+                    $('#category_name').val(data.category_name);
+                    $('#category_description').val(data.category_description);
+                    $('#inputImage').attr('src', data.category_image);
+                    console.log(data);
                 }
-            });
-
-
-
-            $('#update_id').val(data[0]);
-            $('#category_name').val(data[1]);
-            $('#category_description').val(data[2]);
-            $('#category_image').val('src', data[3]);
-            $('#inputImage').val('src', data[3]);
+            })
         });
         });
 </script>

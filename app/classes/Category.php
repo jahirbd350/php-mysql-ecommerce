@@ -12,7 +12,7 @@ class Category extends Database
         $check = getimagesize($_FILES['category_image']['tmp_name']);
         if ($check) {
             if (!file_exists($targetFile)) {
-                if ($fileType == 'jpg' || $fileType == 'png') {
+                if ($fileType == 'jpg' || $fileType == 'png' || $fileType == 'jpeg') {
                     if ($_FILES['category_image']['size'] < 1000000) {
                         move_uploaded_file($_FILES['category_image']['tmp_name'], $targetFile);
                         return $targetFile;
@@ -20,7 +20,7 @@ class Category extends Database
                         $_SESSION['message'] = 'Your file size is too large. Thanks !!!';
                     }
                 } else {
-                    $_SESSION['message'] = 'Please use jpg or png image file. Thanks !!!';
+                    $_SESSION['message'] = 'Please use jpg, jpeg or png image file. Thanks !!!';
                 }
             } else {
                 $_SESSION['message'] = 'File already exist. Thanks !!!';
@@ -130,6 +130,17 @@ class Category extends Database
             } else {
                 die('Category Update query error : '.mysqli_error($link));
             }
+        }
+    }
+
+    public function allActiveCategory(){
+        $link = Database::db_connect();
+        $sql = "SELECT * FROM category WHERE category_is_active=1";
+
+        if (mysqli_query($link,$sql)){
+            return mysqli_query($link,$sql);
+        } else {
+            die('AllActiveCategory error : '.mysqli_error($link));
         }
     }
 }

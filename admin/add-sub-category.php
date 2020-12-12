@@ -1,6 +1,32 @@
 <?php
-
+$message='';
 include 'header_admin.php';
+include '../vendor/autoload.php';
+use App\classes\Category;
+use App\classes\SubCategory;
+$category = Category::allActiveCategory();
+
+if (isset($_POST['submit'])){
+    $message = SubCategory::saveSubCategoryIngo();
+}
+
+
+
+if (isset($_GET['status'])){
+    if ($_GET['status']=='unpublish'){
+        $message = SubCategory::unPublishSubCategory($_GET['id']);
+    }
+
+    if ($_GET['status']=='publish'){
+        $message = SubCategory::publishSubCategory($_GET['id']);
+    }
+    if ($_GET['status']=='delete'){
+        $message = SubCategory::deleteSubCategoryInfo($_GET['id']);
+    }
+}
+$subCategory = SubCategory::allSubCategory();
+
+
 ?>
 
 <div id="layoutSidenav_content">
@@ -20,8 +46,10 @@ include 'header_admin.php';
                                     <label for="category_name" class="col-sm-3 col-form-label">Category name</label>
                                     <div class="col-sm-9">
                                         <select id="category_name" class="form-control" name="category_id">
-                                            <option> --- Select Category Name ---</option>
-                                            <option value=""></option>
+                                            <option disabled selected> --- Select Category Name ---</option>
+                                            <?php while ($categoryInfo = mysqli_fetch_assoc($category)){ ?>
+                                            <option value="<?php echo $categoryInfo['category_id']; ?>"><?php echo $categoryInfo['category_name']; ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>
@@ -29,22 +57,30 @@ include 'header_admin.php';
                                     <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Sub Category
                                         name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="name" class="form-control" id="horizontal-firstname-input"/>
+                                        <input type="text" name="sub_category_name" class="form-control" id="horizontal-firstname-input" placeholder="Sub Category Name"/>
                                         <span></span>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
-                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Sub Category
+                                    <label for="sub_category_description" class="col-sm-3 col-form-label">Sub Category
+                                        Description</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="sub_category_description" name="sub_category_description" class="form-control"  placeholder="Sub Category Description"/>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-4">
+                                    <label for="sub_category_image" class="col-sm-3 col-form-label">Sub Category
                                         Image</label>
                                     <div class="col-sm-9">
-                                        <input type="file" name="image" class="form-control-file" id="horizontal-email-input"/>
+                                        <input type="file" name="sub_category_image" class="form-control-file" id="sub_category_image"/>
                                         <span></span>
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-9">
                                         <div>
-                                            <button type="submit" class="btn btn-primary w-md">New Sub Category</button>
+                                            <button type="submit" name="submit" class="btn btn-primary w-md">New Sub Category</button>
                                         </div>
                                     </div>
                                 </div>
@@ -65,6 +101,7 @@ include 'header_admin.php';
                                     <th>SL NO</th>
                                     <th>Category Name</th>
                                     <th>Sub Category Name</th>
+                                    <th>Sub Category Description</th>
                                     <th>Image</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -72,35 +109,43 @@ include 'header_admin.php';
                                 </thead>
                                 <tbody>
 
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td id=""></td>
-                                    <td><img src="" id="" alt="" height="50" width="80"/>
-                                    </td>
-                                    <td id=""></td>
-                                    <td>
+                                <?php if (mysqli_num_rows($subCategory)>0) {
+                                    $ser_no = 0;
+                                    while ($allSubCategoryInfo = mysqli_fetch_assoc($subCategory)){
+                                        $ser_no += 1;
+                                        ?>
+                                        <tr>
+                                            <td class="text-center"><?php echo $ser_no ?></td>
+                                            <td><?php echo $allSubCategoryInfo['category_name']; ?></td>
+                                            <td><?php echo $allSubCategoryInfo['sub_category_name']; ?></td>
+                                            <td><?php echo $allSubCategoryInfo['sub_category_description']; ?></td>
+                                            <td class="text-center"><img src="<?php echo $allSubCategoryInfo['sub_category_image']; ?>" id="" alt="" height="50"/></td>
+                                            <td class="text-center"><?php if  ($allSubCategoryInfo['sub_category_is_active']==1) { echo 'Active'; } else { echo 'Inactive';} ?></td>
+                                            <td class="text-center">
+                                                <?php if  ($allSubCategoryInfo['sub_category_is_active']==1) { ?>
+                                                    <a href="?status=unpublish&&id=<?php echo $allSubCategoryInfo['sub_category_id']; ?>" class="btn btn-sm btn-info sub-category-status"
+                                                       id="" title="Published Sub Category">
+                                                        <i id="" class="fas fa-arrow-alt-circle-up"></i>
+                                                    </a>
+                                                <?php } else { ?>
 
-                                        <a href="" class="btn btn-sm btn-info sub-category-status"
-                                           id="{{ $sub_category->id }}" title="Published Sub Category">
-                                            <i id="" class="fas fa-arrow-alt-circle-up"></i>
-                                        </a>
+                                                    <a href="?status=publish&&id=<?php echo $allSubCategoryInfo['sub_category_id']; ?>" class="btn btn-sm btn-warning sub-category-status"
+                                                       id="" title="Unpublished Sub Category">
+                                                        <i id="" class="fas fa-arrow-alt-circle-down"></i>
+                                                    </a>
+                                                <?php } ?>
 
-                                        <a href="" class="btn btn-sm btn-warning sub-category-status"
-                                           id="{{ $sub_category->id }}" title="Unpublished Sub Category">
-                                            <i id="" class="fas fa-arrow-alt-circle-down"></i>
-                                        </a>
-
-                                        <a href="" class="btn btn-sm btn-success edit-sub-category"
-                                           id="{{ $sub_category->id }}" title="Edit Sub Category">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="" class="btn btn-sm btn-danger delete-sub-category"
-                                           id="{{ $sub_category->id }}" title="Delete Sub Category">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                                <a href="" class="btn btn-sm btn-success edition"
+                                                   id="" title="Edit Category" data-toggle="modal" data-id="<?php echo $allSubCategoryInfo['category_id']; ?>" data-target="#editModel">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="?status=delete&&id=<?php echo $allSubCategoryInfo['sub_category_id']; ?>" class="btn btn-sm btn-danger delete-sub-category"
+                                                   id="" title="Delete Sub Category">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php } } ?>
                                 </tbody>
                             </table>
                         </div>

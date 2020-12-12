@@ -211,7 +211,7 @@ include 'footer_admin.php';
             var id=$(this).data('id');
 
             $.ajax({
-                url:"http://localhost/isd-ecommerce/admin/fetch.php",
+                url:"fetchCategory.php",
                 method:"POST",
                 data:{id:id},
                 dataType:"JSON",
@@ -221,7 +221,7 @@ include 'footer_admin.php';
                     $('#category_name').val(data.category_name);
                     $('#category_description').val(data.category_description);
                     $('#inputImage').attr('src', data.category_image);
-                    console.log(data);
+                    //console.log(data);
                 }
             })
         });

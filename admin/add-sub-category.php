@@ -7,7 +7,7 @@ use App\classes\SubCategory;
 $category = Category::allActiveCategory();
 
 if (isset($_POST['submit'])){
-    $message = SubCategory::saveSubCategoryIngo();
+    $message = SubCategory::saveSubCategoryInfo();
 }
 
 
@@ -38,7 +38,8 @@ $subCategory = SubCategory::allSubCategory();
                         <div class="card-body">
                             <h4 class="card-title mb-4">Sub Category Info</h4>
 
-                            <h4 class="text-center">Message</h4>
+                            <h4 class="text-center"><?php echo $message; ?></h4>
+                            <h4 class="text-center text-danger"><?php if (isset($_SESSION['message'])){  echo $_SESSION['message']; unset($_SESSION['message']);} ?></h4>
 
                             <form action="" method="POST" enctype="multipart/form-data">
 

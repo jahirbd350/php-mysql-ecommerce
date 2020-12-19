@@ -32,7 +32,7 @@ class SubCategory
         }
     }
 
-    public static function saveSubCategoryIngo() {
+    public static function saveSubCategoryInfo() {
         $link = Database::db_connect();
         $targetFile = SubCategory::uploadImage();
         if (!$targetFile){

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2020 at 12:50 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.0
+-- Generation Time: Dec 23, 2020 at 06:45 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -170,27 +170,31 @@ CREATE TABLE `sub_category` (
 --
 
 INSERT INTO `sub_category` (`sub_category_id`, `category_id`, `sub_category_name`, `sub_category_description`, `sub_category_image`, `sub_category_is_active`) VALUES
-(1, 6, 'Tea, Veberage & Drinks', 'All Types of Drinks', '../assets/images/sub_categories/Tea-veberage.jpg', 0),
-(2, 6, 'Dairy Items', 'All Type of Dairy Items', '../assets/images/sub_categories/Dairy-sub-category.jpg', 0),
-(3, 6, 'Snacks', 'All Snacks Items', '../assets/images/sub_categories/snacks-sub-category.jpg', 0),
-(4, 7, 'Desktop ', 'All Type of Desktop Computer', '../assets/images/sub_categories/desktop-sub-category.jpg', 0),
-(5, 7, 'Laptop', 'All Type of Laptop', '../assets/images/sub_categories/laptop-sub-category.jpg', 0),
-(6, 7, 'All-in-One Computer', 'All types of all in one computer', '../assets/images/sub_categories/all-in-one-sub-category.jpg', 0),
-(7, 7, 'Computer Accessories', 'All type of computer accessories', '../assets/images/sub_categories/com-accessories-sub-category.jpg', 0),
-(8, 8, 'Fridge', 'All types of fridge', '../assets/images/sub_categories/fridge-sub-category.jpg', 0),
-(9, 8, 'Air Conditioner', 'All Type of AC', '../assets/images/sub_categories/ac-sub-category.jpg', 0),
-(10, 8, 'TV', 'All Type of TV', '../assets/images/sub_categories/tv-sub-category.jpg', 0),
-(11, 8, 'Washing Machine', 'All Type of Washing Machie', '../assets/images/sub_categories/washing-machine-sub-category.jpg', 0),
-(12, 8, 'FAN', 'All Type of FAN', '../assets/images/sub_categories/fan-sub-category.jpg', 0),
-(13, 8, 'Others Electronics', 'All others electronics items', '../assets/images/sub_categories/other-electronic-product-sub-category.png', 0),
-(14, 9, 'Smart Phone', 'All type of smart phone', '../assets/images/sub_categories/smart-phone-sub-category.jpg', 0),
-(15, 9, 'Feature Phone', 'All type of feature phone', '../assets/images/sub_categories/feature-phone-sub-category.png', 0),
-(16, 9, 'Mobile Accessories', 'All type of mobile accessories', '../assets/images/sub_categories/mobile-accessories-sub-category.jpeg', 0),
-(17, 8, 'Watch', 'All types of watches', '../assets/images/sub_categories/watch-sub-category.jpg', 0),
-(18, 10, 'Kids Dress', 'All Type of kids dress', '../assets/images/sub_categories/kids-dress-sub-category.jpg', 0),
-(19, 10, 'Kids Food', 'All types of kids food', '../assets/images/sub_categories/kids-food-sub-category.jpg', 0),
-(20, 10, 'Kids Diaper', 'All Type of Diapers', '../assets/images/sub_categories/kids-diaper-sub-category.jpg', 0),
-(21, 10, 'Kids Toys', 'All types of toys', '../assets/images/sub_categories/kids-toys-sub-category.jpg', 0);
+(1, 6, 'Tea, Veberage & Drinks', 'All Types of Drinks', '../assets/images/sub_categories/Tea-veberage.jpg', 1),
+(2, 6, 'Dairy Items', 'All Type of Dairy Items', '../assets/images/sub_categories/Dairy-sub-category.jpg', 1),
+(3, 6, 'Snacks', 'All Snacks Items', '../assets/images/sub_categories/snacks-sub-category.jpg', 1),
+(4, 7, 'Desktop ', 'All Type of Desktop Computer', '../assets/images/sub_categories/desktop-sub-category.jpg', 1),
+(5, 7, 'Laptop', 'All Type of Laptop', '../assets/images/sub_categories/laptop-sub-category.jpg', 1),
+(6, 7, 'All-in-One Computer', 'All types of all in one computer', '../assets/images/sub_categories/all-in-one-sub-category.jpg', 1),
+(7, 7, 'Computer Accessories', 'All type of computer accessories', '../assets/images/sub_categories/com-accessories-sub-category.jpg', 1),
+(8, 8, 'Fridge', 'All types of fridge', '../assets/images/sub_categories/fridge-sub-category.jpg', 1),
+(9, 8, 'Air Conditioner', 'All Type of AC', '../assets/images/sub_categories/ac-sub-category.jpg', 1),
+(10, 8, 'TV', 'All Type of TV', '../assets/images/sub_categories/tv-sub-category.jpg', 1),
+(11, 8, 'Washing Machine', 'All Type of Washing Machie', '../assets/images/sub_categories/washing-machine-sub-category.jpg', 1),
+(12, 8, 'FAN', 'All Type of FAN', '../assets/images/sub_categories/fan-sub-category.jpg', 1),
+(13, 8, 'Others Electronics', 'All others electronics items', '../assets/images/sub_categories/other-electronic-product-sub-category.png', 1),
+(14, 9, 'Smart Phone', 'All type of smart phone', '../assets/images/sub_categories/smart-phone-sub-category.jpg', 1),
+(15, 9, 'Feature Phone', 'All type of feature phone', '../assets/images/sub_categories/feature-phone-sub-category.png', 1),
+(16, 9, 'Mobile Accessories', 'All type of mobile accessories', '../assets/images/sub_categories/mobile-accessories-sub-category.jpeg', 1),
+(17, 8, 'Watch', 'All types of watches', '../assets/images/sub_categories/watch-sub-category.jpg', 1),
+(18, 10, 'Kids Dress', 'All Type of kids dress', '../assets/images/sub_categories/kids-dress-sub-category.jpg', 1),
+(19, 10, 'Kids Food', 'All types of kids food', '../assets/images/sub_categories/kids-food-sub-category.jpg', 1),
+(20, 10, 'Kids Diaper', 'All Type of Diapers', '../assets/images/sub_categories/kids-diaper-sub-category.jpg', 1),
+(21, 10, 'Kids Toys', 'All types of toys', '../assets/images/sub_categories/kids-toys-sub-category.jpg', 1),
+(22, 11, 'Mens Clothing', 'All Type of Mens Clothing', '../assets/images/sub_categories/mens-clothing-sub-category.jpg', 1),
+(23, 11, 'Womens Clothing', 'All Types womens clothings', '../assets/images/sub_categories/women-clothing-sub-category.jpg', 1),
+(24, 11, 'Mens Footwear', 'All types of mens footwear', '../assets/images/sub_categories/mems-footwear-sub-category.jpg', 1),
+(25, 11, 'Womens Footwear', 'All Types womens footwear', '../assets/images/sub_categories/women-footwear-clothing-sub-category.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -343,7 +347,7 @@ ALTER TABLE `shopping_cart`
 -- AUTO_INCREMENT for table `sub_category`
 --
 ALTER TABLE `sub_category`
-  MODIFY `sub_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `sub_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -34,22 +34,20 @@ if (isset($_POST['add_product'])){
                                 <div class="form-group row mb-4">
                                     <label for="category_name" class="col-sm-3 col-form-label">Category name</label>
                                     <div class="col-sm-9">
-                                        <select id="category_name" class="form-control" name="category_name" required>
+                                        <select id="category_name" class="form-control" data-live-search="true" name="category_name" required>
                                             <?php if (mysqli_num_rows($allCategory)>0){
                                             echo '<option disabled selected value="">--Select Category--</option>';
                                              while ($categoryInfo = mysqli_fetch_assoc($allCategory)){ ?>
                                                 <option value="<?php echo $categoryInfo['category_id']; ?>"><?php echo $categoryInfo['category_name']; ?></option>
                                             <?php }} ?>
-
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
                                     <label for="sub_category_name" class="col-sm-3 col-form-label">Sub Category name</label>
                                     <div class="col-sm-9">
-                                        <select id="sub_category_name" class="form-control" name="sub_category_name">
+                                        <select id="sub_category_name" class="form-control" name="sub_category_name" data-live-search="true">
                                             <option value="">--Select Category First--</option>
-
                                         </select>
                                     </div>
                                 </div>

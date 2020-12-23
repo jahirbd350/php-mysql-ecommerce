@@ -1,10 +1,13 @@
 <?php
 $message='';
 include 'header_admin.php';
+
 include '../vendor/autoload.php';
 use App\classes\Category;
 use App\classes\SubCategory;
-$category = Category::allActiveCategory();
+
+$category = new Category();
+$category = $category->allActiveCategory();
 
 if (isset($_POST['submit'])){
     $message = SubCategory::saveSubCategoryInfo();
@@ -24,7 +27,8 @@ if (isset($_GET['status'])){
         $message = SubCategory::deleteSubCategoryInfo($_GET['id']);
     }
 }
-$subCategory = SubCategory::allSubCategory();
+$subCategory = new SubCategory();
+$subCategory = $subCategory->allSubCategory();
 
 
 ?>
@@ -36,9 +40,9 @@ $subCategory = SubCategory::allSubCategory();
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title mb-4">Sub Category Info</h4>
+                            <h4 class="card-title mb-4 col-sm-9 offset-sm-3">Sub Category Info</h4>
 
-                            <h4 class="text-center"><?php echo $message; ?></h4>
+                            <h4 class="text-center text-info"><?php echo $message; ?></h4>
                             <h4 class="text-center text-danger"><?php if (isset($_SESSION['message'])){  echo $_SESSION['message']; unset($_SESSION['message']);} ?></h4>
 
                             <form action="" method="POST" enctype="multipart/form-data">
@@ -97,7 +101,7 @@ $subCategory = SubCategory::allSubCategory();
                             <h4 class="text-center" id="resultMessage"></h4>
                             <table id="category-datatable" class="table table-bordered dt-responsive nowrap"
                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
+                                <thead class="text-center">
                                 <tr>
                                     <th>SL NO</th>
                                     <th>Category Name</th>

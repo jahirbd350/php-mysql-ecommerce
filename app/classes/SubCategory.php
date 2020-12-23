@@ -15,7 +15,7 @@ class SubCategory
         if ($check) {
             if (!file_exists($targetFile)) {
                 if ($fileType == 'jpg' || $fileType == 'png' || $fileType == 'jpeg') {
-                    if ($_FILES['sub_category_image']['size'] < 1000000) {
+                    if ($_FILES['sub_category_image']['size'] < 5242880) {
                         move_uploaded_file($_FILES['sub_category_image']['tmp_name'], $targetFile);
                         return $targetFile;
                     } else {
@@ -50,7 +50,7 @@ class SubCategory
 
     public function allSubCategory(){
         $link = Database::db_connect();
-        $sql = "SELECT * FROM sub_category LEFT JOIN category ON (category.category_id)=(sub_category.category_id)";
+        $sql = "SELECT * FROM sub_category LEFT JOIN category ON (sub_category.category_id)=(category.category_id) ORDER BY category.category_id";
         if (mysqli_query($link, $sql)) {
             return mysqli_query($link,$sql);
         } else {

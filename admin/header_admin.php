@@ -1,12 +1,14 @@
 <?php
 session_start();
+require_once '../vendor/autoload.php';
+use App\classes\Login;
+
 if (isset($_SESSION['user_role'])){
     if ($_SESSION['user_role']=='user'){
         header('location: ../index.php');
     }
 }
-require_once '../vendor/autoload.php';
-use App\classes\Login;
+
 
 if (isset($_GET['status'])){
     if ($_GET['status'] == 'logout'){
@@ -88,8 +90,7 @@ if (isset($_GET['status'])){
                             </a>
                             <div class="collapse" id="pagesCollapse" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="add-cetegory.php">Add Category</a>
-                                    <a class="nav-link" href="manage-categories.php">Manage Categories</a>
+                                    <a class="nav-link" href="add-cetegory.php">Manage Categories</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -98,8 +99,7 @@ if (isset($_GET['status'])){
                             </a>
                             <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="add-sub-category.php">Add Sub Category</a>
-                                    <a class="nav-link" href="manage-sub-categories.php">Manage Sub Categories</a>
+                                    <a class="nav-link" href="add-sub-category.php">Manage Sub Categories</a>
                                 </nav>
                             </div>
                         </nav>

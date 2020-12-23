@@ -45,7 +45,7 @@ $allCategory = Category::allCategoryInfo();
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title mb-4">Category Info</h4>
+                            <h4 class="card-title mb-4 col-sm-9 offset-sm-3">Category Info</h4>
 
                             <h4 class="text-center"><?php echo $message; ?></h4>
                             <h4 class="text-center text-danger"><?php if (isset($_SESSION['message'])){  echo $_SESSION['message']; unset($_SESSION['message']);} ?></h4>

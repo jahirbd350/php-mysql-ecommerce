@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2020 at 06:31 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: Dec 23, 2020 at 12:50 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,6 +34,18 @@ CREATE TABLE `category` (
   `category_image` varchar(255) NOT NULL,
   `category_is_active` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`category_id`, `category_name`, `category_description`, `category_image`, `category_is_active`) VALUES
+(6, 'Grocery', 'All Grocery Items', '../assets/images/category/Grocery-category.jpg', 1),
+(7, 'Computer', 'All Computer Items', '../assets/images/category/Computer-category.jpg', 1),
+(8, 'Electronics', 'All Electronics Items', '../assets/images/category/Electronics-category.jpg', 1),
+(9, 'Mobile', 'All types of mobile items', '../assets/images/category/Mobile-category.jpg', 1),
+(10, 'Kids Zone', 'All kids items', '../assets/images/category/Kids-zone-category.png', 1),
+(11, 'Clothing', 'All clothing items', '../assets/images/category/clothing-category.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -153,6 +165,33 @@ CREATE TABLE `sub_category` (
   `sub_category_is_active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `sub_category`
+--
+
+INSERT INTO `sub_category` (`sub_category_id`, `category_id`, `sub_category_name`, `sub_category_description`, `sub_category_image`, `sub_category_is_active`) VALUES
+(1, 6, 'Tea, Veberage & Drinks', 'All Types of Drinks', '../assets/images/sub_categories/Tea-veberage.jpg', 0),
+(2, 6, 'Dairy Items', 'All Type of Dairy Items', '../assets/images/sub_categories/Dairy-sub-category.jpg', 0),
+(3, 6, 'Snacks', 'All Snacks Items', '../assets/images/sub_categories/snacks-sub-category.jpg', 0),
+(4, 7, 'Desktop ', 'All Type of Desktop Computer', '../assets/images/sub_categories/desktop-sub-category.jpg', 0),
+(5, 7, 'Laptop', 'All Type of Laptop', '../assets/images/sub_categories/laptop-sub-category.jpg', 0),
+(6, 7, 'All-in-One Computer', 'All types of all in one computer', '../assets/images/sub_categories/all-in-one-sub-category.jpg', 0),
+(7, 7, 'Computer Accessories', 'All type of computer accessories', '../assets/images/sub_categories/com-accessories-sub-category.jpg', 0),
+(8, 8, 'Fridge', 'All types of fridge', '../assets/images/sub_categories/fridge-sub-category.jpg', 0),
+(9, 8, 'Air Conditioner', 'All Type of AC', '../assets/images/sub_categories/ac-sub-category.jpg', 0),
+(10, 8, 'TV', 'All Type of TV', '../assets/images/sub_categories/tv-sub-category.jpg', 0),
+(11, 8, 'Washing Machine', 'All Type of Washing Machie', '../assets/images/sub_categories/washing-machine-sub-category.jpg', 0),
+(12, 8, 'FAN', 'All Type of FAN', '../assets/images/sub_categories/fan-sub-category.jpg', 0),
+(13, 8, 'Others Electronics', 'All others electronics items', '../assets/images/sub_categories/other-electronic-product-sub-category.png', 0),
+(14, 9, 'Smart Phone', 'All type of smart phone', '../assets/images/sub_categories/smart-phone-sub-category.jpg', 0),
+(15, 9, 'Feature Phone', 'All type of feature phone', '../assets/images/sub_categories/feature-phone-sub-category.png', 0),
+(16, 9, 'Mobile Accessories', 'All type of mobile accessories', '../assets/images/sub_categories/mobile-accessories-sub-category.jpeg', 0),
+(17, 8, 'Watch', 'All types of watches', '../assets/images/sub_categories/watch-sub-category.jpg', 0),
+(18, 10, 'Kids Dress', 'All Type of kids dress', '../assets/images/sub_categories/kids-dress-sub-category.jpg', 0),
+(19, 10, 'Kids Food', 'All types of kids food', '../assets/images/sub_categories/kids-food-sub-category.jpg', 0),
+(20, 10, 'Kids Diaper', 'All Type of Diapers', '../assets/images/sub_categories/kids-diaper-sub-category.jpg', 0),
+(21, 10, 'Kids Toys', 'All types of toys', '../assets/images/sub_categories/kids-toys-sub-category.jpg', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -181,7 +220,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `gender`, `date_of_birth`, `email_address`, `phone_no`, `address`, `city`, `division`, `post_code`, `password`, `user_role`, `created_at`) VALUES
-(1, 'Md Jahirul', 'Islam', 'male', '1988-05-15', 'jahirbd350@gmail.com', '01777844111', 'Air Force Headquarters Reception, Dhaka Cant', 'Dhaka', 'Dhaka', 1206, '12345', 'user', '2020-11-21 11:07:03');
+(1, 'Md Jahirul', 'Islam', 'male', '1988-05-15', 'jahirbd350@gmail.com', '01777844111', 'Air Force Headquarters Reception, Dhaka Cant', 'Dhaka', 'Dhaka', 1206, '12345', 'admin', '2020-11-26 09:37:24'),
+(2, 'Tarekul', 'Islam', 'male', '2020-11-17', 'tarek026@gmail.com', '01777844111', 'Air Force Headquarters Reception, Dhaka Cant', 'Dhaka', 'Dhaka', 1206, '12345', 'user', '2020-11-26 09:36:41');
 
 --
 -- Indexes for dumped tables
@@ -261,7 +301,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `cutomers`
@@ -303,13 +343,13 @@ ALTER TABLE `shopping_cart`
 -- AUTO_INCREMENT for table `sub_category`
 --
 ALTER TABLE `sub_category`
-  MODIFY `sub_category_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `sub_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

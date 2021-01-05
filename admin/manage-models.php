@@ -6,11 +6,10 @@ include '../vendor/autoload.php';
 use App\classes\Category;
 use App\classes\SubCategory;
 
-$category = new Category();
-$category = $category->allActiveCategory();
+$subCategory = new SubCategory();
+$subCategory = $subCategory->allActiveSubCategory();
 
 if (isset($_POST['submit'])){
-    $message = SubCategory::saveSubCategoryInfo();
 }
 
 

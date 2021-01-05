@@ -57,6 +57,17 @@ class SubCategory
             die('Sub Category Query Problem ' . mysqli_error($link));
         }
     }
+
+    public function allActiveSubCategory(){
+        $link = Database::db_connect();
+        $sql = "SELECT * FROM sub_category WHERE sub_category_is_active = 1 ORDER BY sub_category_id";
+        if (mysqli_query($link, $sql)) {
+            return mysqli_query($link,$sql);
+        } else {
+            die('Sub Category Query Problem ' . mysqli_error($link));
+        }
+    }
+
     public static function publishSubCategory($id){
         $link = Database::db_connect();
         $sql = "UPDATE sub_category SET sub_category_is_active=1 WHERE sub_category_id=$id";

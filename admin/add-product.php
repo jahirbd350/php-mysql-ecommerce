@@ -2,6 +2,7 @@
 
 namespace App\classes;
 use App\classes\Category;
+use App\classes\Product;
 
 $message='';
 include 'header_admin.php';
@@ -10,9 +11,11 @@ $category = new Category();
 $allCategory = $category->allActiveCategory();
 
 if (isset($_POST['add_product'])){
-    echo '<pre>';
+    /*echo '<pre>';
     print_r($_POST);
-    echo '</pre>';
+    echo '</pre>';*/
+    $product = new Product();
+    $message = $product->addNewProduct();
 }
 
 ?>
@@ -25,7 +28,7 @@ if (isset($_POST['add_product'])){
                         <div class="card-body">
                             <h4 class="card-title mb-4 text-center">Add New Product</h4>
 
-                            <h4 class="text-center"><?php echo $message; ?></h4>
+                            <h4 class="text-center text-info"><?php echo $message; ?></h4>
                             <h4 class="text-center text-danger"><?php if (isset($_SESSION['message'])){  echo $_SESSION['message']; unset($_SESSION['message']);} ?></h4>
 
 
@@ -54,7 +57,7 @@ if (isset($_POST['add_product'])){
                                 <div class="form-group row mb-4">
                                     <label for="product_code" class="col-sm-3 col-form-label">Product Code</label>
                                     <div class="col-sm-9">
-                                        <input type="text" id="product_code" name="product_code" class="form-control"  placeholder="Product Code will be generated automatically" value=""/>
+                                        <input type="text" id="product_code" name="product_code" class="form-control"  placeholder="Product Code will be generated automatically"/>
                                         <span></span>
                                     </div>
                                 </div>
@@ -94,9 +97,16 @@ if (isset($_POST['add_product'])){
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
-                                    <label for="product_price" class="col-sm-3 col-form-label">Product Price</label>
+                                    <label for="product_price" class="col-sm-3 col-form-label">Product Unit Price</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="product_price" class="form-control" id="product_price" placeholder="Enter Product price"/>
+                                        <input type="text" name="unit_price" class="form-control" id="product_price" placeholder="Enter Product price"/>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-4">
+                                    <label for="quantity" class="col-sm-3 col-form-label">Product Quantity</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="quantity" class="form-control" id="quantity" placeholder="Enter Product Quantity"/>
                                         <span></span>
                                     </div>
                                 </div>
@@ -110,7 +120,7 @@ if (isset($_POST['add_product'])){
                                 <div class="form-group row mb-4">
                                     <label for="product_image" class="col-sm-3 col-form-label">Product Images</label>
                                     <div class="col-sm-9">
-                                        <input type="file" name="product_image" class="form-control-file" id="product_image" placeholder="Enter Product Images"/>
+                                        <input type="file" name="file" class="form-control-file" id="product_image" placeholder="Enter Product Images"/>
                                         <span></span>
                                     </div>
                                 </div>
@@ -130,29 +140,29 @@ if (isset($_POST['add_product'])){
 <?php
 include 'footer_admin.php';
 ?>
-        <script type="text/javascript">
-            $(document).ready(function(){
-                // Country dependent ajax
-                $("#category_name").on("change",function(){
-                    var categoryId = $(this).val();
-                    if (categoryId) {
-                        $.ajax({
-                            url :"load_category.php",
-                            type:"POST",
-                            cache:false,
-                            data:{categoryId:categoryId},
-                            success:function(data){
-                                $("#sub_category_name").html(data);
-                            }
-                        });
-                    }else{
-                        $('#sub_category_name').html('<option value="">Select Category First</option>');
+<script type="text/javascript">
+    $(document).ready(function(){
+        // Country dependent ajax
+        $("#category_name").on("change",function(){
+            var categoryId = $(this).val();
+            if (categoryId) {
+                $.ajax({
+                    url :"load_category.php",
+                    type:"POST",
+                    cache:false,
+                    data:{categoryId:categoryId},
+                    success:function(data){
+                        $("#sub_category_name").html(data);
                     }
-                    $("#sub_category_name").on("change",function() {
-                        var subCategoryId = $(this).val();
-                        const randomNum = Math.floor(1000 + Math.random() * 9000);
-                        $("#product_code").val(categoryId + '-' + subCategoryId + '-' +randomNum);
-                    });
                 });
+            }else{
+                $('#sub_category_name').html('<option value="">Select Category First</option>');
+            }
+            $("#sub_category_name").on("change",function() {
+                var subCategoryId = $(this).val();
+                const randomNum = Math.floor(1000 + Math.random() * 9000);
+                $("#product_code").val(categoryId + '-' + subCategoryId + '-' +randomNum);
             });
-        </script>
+        });
+    });
+</script>

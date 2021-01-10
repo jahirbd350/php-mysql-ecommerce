@@ -11,6 +11,58 @@ $productDetails = mysqli_fetch_assoc($productInfo);
 print_r($productDetails);
 echo '</pre>';*/
 
+if(isset($_POST["add_to_cart"]))
+{
+    /*echo '<pre>';
+print_r($_POST);
+print_r($productDetails);
+echo '</pre>';*/
+    if(isset($_SESSION["shopping_cart"]))
+    {
+        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
+        if(!in_array($_GET["id"], $item_array_id))
+        {
+            $count = count($_SESSION["shopping_cart"]);
+            $item_array = array(
+                'item_id'               =>     $productDetails["product_id"],
+                'item_name'               =>     $productDetails["product_name"],
+                'item_price'          =>     $productDetails["unit_price"],
+                'item_quantity'          =>     $_POST["itemQty"]
+            );
+            $_SESSION["shopping_cart"][$count] = $item_array;
+        }
+        else
+        {
+            echo '<script>alert("Item Already Added")</script>';
+            //echo '<script>window.location="index.php"</script>';
+        }
+    }
+    else
+    {
+        $item_array = array(
+            'item_id'               =>     $productDetails["product_id"],
+            'item_name'               =>     $productDetails["product_name"],
+            'item_price'          =>     $productDetails["unit_price"],
+            'item_quantity'          =>     $_POST["itemQty"]
+        );
+        $_SESSION["shopping_cart"][0] = $item_array;
+    }
+}
+if(isset($_GET["action"]))
+{
+    if($_GET["action"] == "delete")
+    {
+        foreach($_SESSION["shopping_cart"] as $keys => $values)
+        {
+            if($values["item_id"] == $_GET["id"])
+            {
+                unset($_SESSION["shopping_cart"][$keys]);
+                echo '<script>alert("Item Removed")</script>';
+                echo '<script>window.location="index.php"</script>';
+            }
+        }
+    }
+}
 
 include "header.php";
 ?>
@@ -95,25 +147,22 @@ include "header.php";
 </dl>
 
 	<div class="form-row  mt-4">
-		<div class="form-group col-md flex-grow-0">
-			<div class="input-group mb-3 input-spinner">
-			  <div class="input-group-prepend">
-			    <button class="btn btn-light" type="button" id="button-plus"> + </button>
-			  </div>
-			  <input type="text" class="form-control" value="1">
-			  <div class="input-group-append">
-			    <button class="btn btn-light" type="button" id="button-minus"> &minus; </button>
-			  </div>
-			</div>
-		</div> <!-- col.// -->
-		<div class="form-group col-md">
-			<a href="#"  class="btn  btn-primary"> 
-				<i class="fas fa-shopping-cart"></i> <span class="text">Add to cart</span> 
-			</a>
-			<a href="#" class="btn btn-light">
-        <i class="fas fa-envelope"></i> <span class="text">Contact supplier</span> 
-			</a>
-		</div> <!-- col.// -->
+        <form class="d-inline-flex" action="" method="post">
+            <div class="form-group col-md flex-grow-0">
+                <div class="input-group mb-3 input-spinner">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-light" type="button" id="button-plus"> + </button>
+                  </div>
+                  <input type="text" id="itemQty" name="itemQty" class="form-control" value="1">
+                  <div class="input-group-append">
+                    <button class="btn btn-light" type="button" id="button-minus"> &minus; </button>
+                  </div>
+                </div>
+            </div> <!-- col.// -->
+            <div class="form-group col-md">
+                <button class="btn btn-primary" type="submit" name="add_to_cart"><i class="fas fa-shopping-cart"></i> <span class="text">Add to cart</span></button>
+            </div> <!-- col.// -->
+        </form>
 	</div> <!-- row.// -->
 
 </article> <!-- product-info-aside .// -->

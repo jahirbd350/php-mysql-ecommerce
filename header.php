@@ -86,35 +86,39 @@
                                         echo '0';
                                     } ?>
                                 </span>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <table class="table table-striped" width="100%" cellspacing="0">
-                                        <thead class="text-center">
-                                            <tr class="small text-uppercase">
-                                                <th width="50%">Product</th>
-                                                <th width="30%">Quantity</th>
-                                                <th width="20%">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php foreach ($_SESSION["shopping_cart"] as $row) {                                            ?>
-                                            <tr>
-                                                <td>
-                                                    <a href="#" class="title text-dark"><?php echo $row["item_name"]?></a>
-                                                </td>
-                                                <td>
-                                                    <div class="price-wrap">
-                                                        <var class="price"><?php echo $row['item_price'] ?> BDT</var>
-                                                    </div> <!-- price-wrap .// -->
-                                                </td>
-                                                <td class="text-center">
-                                                    <a href="?action=deleteCartItem&&id=<?php echo $row["item_id"]?>"> <i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                        </tbody>
-                                    </table>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-center" href="shopping-cart.php"><button class="btn btn-outline-primary">Open Cart</button></a>
+                                <div class="dropdown-menu dropdown-menu-right" style="width: 400px;">
+                                    <?php if (count($_SESSION["shopping_cart"])>0) { ?>
+                                        <table class="table table-striped">
+                                            <thead class="text-center">
+                                                <tr class="small text-uppercase">
+                                                    <th>Product</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach ($_SESSION["shopping_cart"] as $row) {                                            ?>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" class="title text-dark"><?php echo $row["item_name"]?></a>
+                                                    </td>
+                                                    <td>
+                                                        <div class="price-wrap">
+                                                            <var class="price"><?php echo $row['item_price'] ?> BDT</var>
+                                                        </div> <!-- price-wrap .// -->
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="?action=deleteCartItem&&id=<?php echo $row["item_id"]?>"> <i class="fas fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                            </tbody>
+                                        </table>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-center" href="shopping-cart.php"><button class="btn btn-outline-primary">Open Cart</button></a>
+                                    <?php } else { ?>
+                                        <h4 class="text-center text-primary">Nothing in the shopping cart!</h4>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

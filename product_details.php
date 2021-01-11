@@ -52,15 +52,15 @@ echo '</pre>';*/
 
 if(isset($_GET["action"]))
 {
-    if($_GET["action"] == "delete")
+    if($_GET["action"] == "deleteCartItem")
     {
         foreach($_SESSION["shopping_cart"] as $keys => $values)
         {
             if($values["item_id"] == $_GET["id"])
             {
                 unset($_SESSION["shopping_cart"][$keys]);
-                echo '<script>alert("Item Removed")</script>';
-                //echo '<script>window.location="index.php"</script>';
+                //echo '<script>alert("Item Removed")</script>';
+                //echo '<script>window.location="product_details.php"</script>';
             }
         }
     }

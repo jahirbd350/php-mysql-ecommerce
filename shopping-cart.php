@@ -28,7 +28,7 @@ include 'header.php';
 <!-- ========================= SECTION PAGETOP ========================= -->
 <section class="section-pagetop bg">
 <div class="container">
-	<h2 class="title-page">Shopping cart</h2>
+	<h2 class="title-page text-center">Shopping cart</h2>
 </div> <!-- container //  -->
 </section>
 <!-- ========================= SECTION INTRO END// ========================= -->
@@ -36,11 +36,11 @@ include 'header.php';
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content padding-y">
 <div class="container">
-    <?php if (isset($_SESSION["shopping_cart"])) { ?>
+    <?php if (count($_SESSION["shopping_cart"])>0) { ?>
         <div class="row">
             <main class="col-md-9">
                 <div class="card">
-                    <table class="table table-borderless table-shopping-cart">
+                    <table id="shoppingCart" class="table table-borderless table-shopping-cart">
                         <thead class="text-muted">
                         <tr class="small text-uppercase">
                             <th scope="col">Product</th>
@@ -80,8 +80,8 @@ include 'header.php';
                             </td>
                             <td>
                                 <div class="price-wrap">
-                                    <var class="price"><?php echo $productDetails['unit_price'] ?> BDT</var>
-                                    <small class="text-muted"> <?php echo $productDetails['unit_price'] ?> BDT Each </small>
+                                    <var class="price" id="itemPrice"><?php echo $productDetails['unit_price'] ?> BDT</var>
+                                    <small class="text-muted" id="unitPrice"> <?php echo $productDetails['unit_price'] ?></small>
                                 </div> <!-- price-wrap .// -->
                             </td>
                             <td class="text-right">
@@ -145,7 +145,7 @@ include 'header.php';
             </aside> <!-- col.// -->
         </div>
     <?php } else { ?>
-        <h4 class="text-primary">Nothing in the shopping Cart </h4>
+        <h1 class="text-primary">Nothing in the shopping Cart !</h1>
     <?php } ?>
 </div> <!-- container .//  -->
 </section>
@@ -175,3 +175,56 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 <?php
     include 'footer.php';
 ?>
+<script>
+    $(document).ready(function (){
+        $('#shoppingCart tr').each(function(){
+            $(this).find('#button-minus').on('click',function () {
+                var qty = $('#itemQty').val();
+                if (qty > 1) {
+                    qty--;
+                    $('#itemQty').val(qty);
+                }
+                var unitprice = $('#unitPrice').text();
+
+                $('#itemPrice').text(qty * unitprice);
+
+                console.log(qty);
+            })
+
+            $(this).find('#button-plus').on('click',function () {
+                    var qty = $('#itemQty').val();
+                    qty++;
+                    $('#itemQty').val(qty);
+
+                    var unitprice = $('#unitPrice').text();
+
+                    $('#itemPrice').text(qty * unitprice);
+
+                    console.log(qty);
+            })
+        })
+
+
+
+        $('.edition').on('click',function (){
+            $('#editModel').modal('show');
+
+            var id=$(this).data('id');
+
+            $.ajax({
+                url:"fetchCategory.php",
+                method:"POST",
+                data:{id:id},
+                dataType:"JSON",
+                success:function(data)
+                {
+                    $('#update_id').val(data.category_id);
+                    $('#category_name').val(data.category_name);
+                    $('#category_description').val(data.category_description);
+                    $('#inputImage').attr('src', data.category_image);
+                    //console.log(data);
+                }
+            })
+        });
+    });
+</script>

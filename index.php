@@ -28,8 +28,8 @@ if(isset($_GET["action"]))
             if($values["item_id"] == $_GET["id"])
             {
                 unset($_SESSION["shopping_cart"][$keys]);
-                echo '<script>alert("Item Removed")</script>';
-                //echo '<script>window.location="index.php"</script>';
+                //echo '<script>alert("Item Removed")</script>';
+                echo '<script>window.location="index.php"</script>';
             }
         }
     }
@@ -75,7 +75,7 @@ include 'header.php';
 
 <section class="section-intro padding-y-sm">
     <div class="container">
-        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
@@ -83,21 +83,21 @@ include 'header.php';
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="assets/images/banners/slide1.jpg" class="d-block w-100 slider-height" alt="...">
+                    <img src="assets/images/slider/Slider-1.jpg" class="d-block w-100 slider-height" height="350 px" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>First slide label</h5>
                         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/images/banners/slide2.jpg" class="d-block w-100 slider-height" alt="...">
+                    <img src="assets/images/slider/Slider-2.png" class="d-block w-100 slider-height" height="350 px" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Second slide label</h5>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/images/banners/slide3.jpg" class="d-block w-100 slider-height" alt="...">
+                    <img src="assets/images/slider/Slider-3.jpg" class="d-block w-100 slider-height" height="350 px" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Third slide label</h5>
                         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
@@ -171,11 +171,9 @@ include 'header.php';
             <?php while ($popularProducts = mysqli_fetch_assoc($allProducts)) {?>
             <div class="col-md-3">
                 <div href="#" class="card card-product-grid">
-                    <a href="product_details.php?id=<?php echo $popularProducts['product_id']; ?>" class="img-wrap"> <img src="admin/<?php echo $popularProducts['product_image']; ?>"> </a>
+                    <a href="product_details.php?id=<?php echo $popularProducts['product_id']; ?>" class="text-center"> <img src="admin/<?php echo $popularProducts['product_image'];?>" alt="" height="220 px" width="220 px"> </a>
                     <figcaption class="info-wrap">
                         <a href="product_details.php?id=<?php echo $popularProducts['product_id']; ?>" class="title"><?php echo $popularProducts['product_name']; ?></a>
-
-
                         <div class="price mt-1">Product code: <?php echo $popularProducts['product_code']; ?></div> <!-- price-wrap.// -->
                         <div class="price mt-1"><?php echo $popularProducts['unit_price']; ?> BDT</div> <!-- price-wrap.// -->
                     </figcaption>

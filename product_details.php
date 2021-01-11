@@ -16,6 +16,7 @@ if(isset($_POST["add_to_cart"]))
     /*echo '<pre>';
 print_r($_POST);
 print_r($productDetails);
+print_r($_SESSION);
 echo '</pre>';*/
     if(isset($_SESSION["shopping_cart"]))
     {
@@ -48,6 +49,7 @@ echo '</pre>';*/
         $_SESSION["shopping_cart"][0] = $item_array;
     }
 }
+
 if(isset($_GET["action"]))
 {
     if($_GET["action"] == "delete")
@@ -58,7 +60,7 @@ if(isset($_GET["action"]))
             {
                 unset($_SESSION["shopping_cart"][$keys]);
                 echo '<script>alert("Item Removed")</script>';
-                echo '<script>window.location="index.php"</script>';
+                //echo '<script>window.location="index.php"</script>';
             }
         }
     }

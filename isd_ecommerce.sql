@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2020 at 06:45 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: Jan 11, 2021 at 10:49 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -112,14 +112,25 @@ CREATE TABLE `products` (
   `category_id` int(11) NOT NULL DEFAULT 0,
   `sub_category_id` int(11) NOT NULL,
   `product_code` varchar(10) NOT NULL,
+  `product_brand` varchar(100) NOT NULL,
+  `product_model` varchar(100) NOT NULL,
   `product_name` varchar(255) NOT NULL,
+  `product_size` varchar(100) NOT NULL,
+  `product_color` varchar(100) NOT NULL,
   `unit_price` double NOT NULL,
-  `product_discoumt` double NOT NULL,
-  `product_description` varchar(255) NOT NULL,
-  `product_image` varchar(255) NOT NULL,
   `quantity` int(11) NOT NULL,
+  `product_description` text NOT NULL,
+  `product_image` varchar(255) NOT NULL,
   `product_is_active` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`product_id`, `category_id`, `sub_category_id`, `product_code`, `product_brand`, `product_model`, `product_name`, `product_size`, `product_color`, `unit_price`, `quantity`, `product_description`, `product_image`, `product_is_active`) VALUES
+(1, 7, 5, '7-5-5681', 'HP', 'HP Probook', 'HP ProBook 440 G7 10th Gen Intel Core i5 10210U', 'Unit', 'Grey', 64800, 5, 'Notebook Model - HP ProBook 440 G7, Notebook Series - ProBook, Processor Brand - Intel, Processor Generation - 10th Gen, Processor Model - Core i5 10210U, Processor Base Frequency - 1.60 GHz, Processor Max Turbo Frequency - 4.20 GHz, Processor Core - 4, Processor Thread - 8, Processor Cache - 6 MB, Display Size - 14 Inch, Display Technology - FHD LED Display, Display Resolution - 1920 x 1080, Display Surface - Anti-Glare, Touch Display - No, Memory (RAM) - 4 GB, Installed Memory Details - 1 x 4 GB, Memory Type - DDR4, Memory Bus (MHz) - 3200 MHz, Total Memory Slot - 2, Empty Memory Slot - 1, Max Memory Support - 32 GB, Optane Memory - No, Storage - 1 TB HDD, Installed HDD Type - SATA 3, HDD RPM - 5400 RPM, SSD Expansion Slot - 1 x M.2 PCIe Blank SSD Slot, Optical Drive - No-ODD, Multimedia Card Slot - 1, Supported Multimedia Card - Supports SD, SDHC, SDXC, Graphics Chipset - Intel UHD Graphics 620, Graphics Memory Accesibility - Integrated, Graphics Memory - Shared, LAN - Realtek 10/100/1000 GbE NIC, WiFi - Intel 802.11ac (2x2), Bluetooth - Bluetooth 5, NFC - No, USB 2 Port - 1 x USB2.0, USB 3 Port - 2 x USB3.1 Gen 1, USB C / Thunderbolt Port - 1 x USB3.1 Gen 1 Type-C, HDMI Port - 1, DP Port - No, D-SUB / VGA Port - No, Headphone Port - Combo, Microphone Port - Combo, Speaker - Stereo speakers, Microphone - Yes, WebCam - HD Webcam, Keyboard Layout - Spill-resistant, Keyboard Back-lit - No, RGB Keyboard - No, Num Key pad - No, Pointing Device - Clickpad with multi-touch gesture support, Finger Print Sensor - Yes, Face Detection - No, TPM - Yes, Battery - 3 Cell, Battery Capacity - 45Wh, Battery Type - Li-Ion, Power Adapter - 45W / 65W AC power adapter, Operating System - Windows 10 Home, Color - Silver, Weight - 1.6Kg, Special Feature - Finger Print Sensor, Stereo speakers, integrated microphone (mono or dual array) (Audio), Clickpad with multi-touch gesture support (Pointing Devices), 720p HD camera; IR Camera (Camera), Others - HDD Type: SATA 5400RPM, Wireless technologies: (2x2) WLAN and Bluetooth 5 Combo, Expansion slots: 1 SD (Supports SD, SDHC, SDXC.), 1 AC power, Network Interface: Realtek 10/100/1000 GbE NIC, Battery Wh: 45 Wh, Warranty - 3 year (1 year for Battery and Adapter), Warranty Claim Duration (Approximate) - Estimated Warranty Claim Duration 30 Days. It may take additional time up to 60 days, Part Number - 6XJ55AV-3Y (4GB-FPS-FHD), Country of Origin - USA, Made in / Assembled in - China', 'assets/img/products/7-5-5681.png', 1),
+(2, 8, 10, '8-10-7441', 'Samsung', 'UA32T4500ARSFS', 'Samsung 32\' UA32T4500ARSFS Smart HD TV - Black', 'Unit', 'Black', 28000, 3, 'A smart TV, also known as a connected TV (CTV), is a traditional television set with integrated Internet and interactive Web 2.0 features, which allows users to stream music and videos, browse the internet, and view photos. ... In smart TVs, the operating system is preloaded or is available through the set-top box.', 'assets/img/products/8-10-7441.png', 1);
 
 -- --------------------------------------------------------
 
@@ -329,7 +340,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shipping`

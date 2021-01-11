@@ -77,8 +77,46 @@
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="widgets-wrap float-md-right">
                         <div class="widget-header  mr-3">
-                            <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-                            <span class="badge badge-pill badge-danger notify">0</span>
+                            <div class="dropdown">
+                                <button href="#" class="icon icon-sm rounded-circle border" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-cart"></i></button>
+                                <span class="badge badge-pill badge-danger notify">
+                                    <?php if (isset($_SESSION["shopping_cart"])) {
+                                        echo count($_SESSION["shopping_cart"]);
+                                    } else {
+                                        echo '0';
+                                    } ?>
+                                </span>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <table class="table table-striped" width="100%" cellspacing="0">
+                                        <thead class="text-center">
+                                            <tr class="small text-uppercase">
+                                                <th width="50%">Product</th>
+                                                <th width="30%">Quantity</th>
+                                                <th width="20%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($_SESSION["shopping_cart"] as $row) {                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <a href="#" class="title text-dark"><?php echo $row["item_name"]?></a>
+                                                </td>
+                                                <td>
+                                                    <div class="price-wrap">
+                                                        <var class="price"><?php echo $row['item_price'] ?> BDT</var>
+                                                    </div> <!-- price-wrap .// -->
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="?action=deleteCartItem&&id=<?php echo $row["item_id"]?>"> <i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-center" href="shopping-cart.php"><button class="btn btn-outline-primary">Open Cart</button></a>
+                                </div>
+                            </div>
                         </div>
                         <?php if (isset($_SESSION['user_id'])){ ?>
                             <div class="widget-header icontext">

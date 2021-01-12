@@ -87,7 +87,7 @@
                                     } ?>
                                 </span>
                                 <div class="dropdown-menu dropdown-menu-right" style="width: 400px;">
-                                    <?php if (count($_SESSION["shopping_cart"])>0) { ?>
+                                    <?php if (isset($_SESSION["shopping_cart"])) { if (count($_SESSION["shopping_cart"])>0) { ?>
                                         <table class="table table-striped">
                                             <thead class="text-center">
                                                 <tr class="small text-uppercase">
@@ -116,7 +116,7 @@
                                         </table>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item text-center" href="shopping-cart.php"><button class="btn btn-outline-primary">Open Cart</button></a>
-                                    <?php } else { ?>
+                                    <?php } } else { ?>
                                         <h4 class="text-center text-primary">Nothing in the shopping cart!</h4>
                                     <?php } ?>
                                 </div>

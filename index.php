@@ -57,7 +57,7 @@ include 'header.php';
                     <a class="nav-link pl-0" data-toggle="dropdown" href="#"><strong> <i class="fa fa-bars"></i> &nbsp  All category</strong></a>
                     <div class="dropdown-menu">
                         <?php while ($categoryInfo = mysqli_fetch_assoc($allCategory)) {?>
-                        <a class="dropdown-item" href="#"><?php echo $categoryInfo['category_name'] ?></a>
+                        <a class="dropdown-item" href="category_page.php?category_id=<?php echo $categoryInfo['category_id']; ?>"><?php echo $categoryInfo['category_name'] ?></a>
                             <div class="dropdown-divider"></div>
                         <?php } ?>
 
@@ -65,7 +65,7 @@ include 'header.php';
                 </li>
                 <?php while ($topcategoryInfo = mysqli_fetch_assoc($topCategory)) {?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><?php echo $topcategoryInfo['category_name'] ?></a>
+                        <a class="nav-link" href="category_page.php?category_id=<?php echo $topcategoryInfo['category_id']; ?>"><?php echo $topcategoryInfo['category_name'] ?></a>
                     </li>
                 <?php } ?>
             </ul>

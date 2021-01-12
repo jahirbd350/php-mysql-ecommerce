@@ -98,4 +98,14 @@ class SubCategory
         }
     }
 
+    public function subCategoryByCategoryId($categoryId){
+        $link = Database::db_connect();
+        $sql = "SELECT * FROM sub_category WHERE category_id = '$categoryId'";
+        if (mysqli_query($link, $sql)) {
+            return mysqli_query($link,$sql);
+        } else {
+            die('subCategoryByCategoryId Query Problem ' . mysqli_error($link));
+        }
+    }
+
 }

@@ -143,4 +143,15 @@ class Category extends Database
             die('AllActiveCategory error : '.mysqli_error($link));
         }
     }
+
+    public function categoryInfoById($id){
+        $link = Database::db_connect();
+        $sql = "SELECT * FROM category WHERE category_id='$id'";
+
+        if (mysqli_query($link,$sql)){
+            return mysqli_query($link,$sql);
+        } else {
+            die('categoryInfoById error : '.mysqli_error($link));
+        }
+    }
 }

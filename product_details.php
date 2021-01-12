@@ -90,13 +90,13 @@ include "header.php";
 <div class="card">
 <article class="gallery-wrap"> 
 	<div class="img-big-wrap">
-	  <div> <a href="#"><img src="images/items/15.jpg"></a></div>
+	  <div> <a href="#"><img src="admin/<?php echo $productDetails['product_image'];?>"></a></div>
 	</div> <!-- slider-product.// -->
 	<div class="thumbs-wrap">
-	  <a href="#" class="item-thumb"> <img src="images/items/15.jpg"></a>
+	  <!--<a href="#" class="item-thumb"> <img src="images/items/15.jpg"></a>
 	  <a href="#" class="item-thumb"> <img src="images/items/15-1.jpg"></a>
 	  <a href="#" class="item-thumb"> <img src="images/items/15-2.jpg"></a>
-	  <a href="#" class="item-thumb"> <img src="images/items/15-1.jpg"></a>
+	  <a href="#" class="item-thumb"> <img src="images/items/15-1.jpg"></a>-->
 	</div> <!-- slider-nav.// -->
 </article> <!-- gallery-wrap .end// -->
 </div> <!-- card.// -->
@@ -150,7 +150,7 @@ include "header.php";
 
 	<div class="form-row  mt-4">
         <form class="d-inline-flex" action="" method="post">
-            <div class="form-group col-md flex-grow-0">
+            <!--<div class="form-group col-md flex-grow-0">
                 <div class="input-group mb-3 input-spinner">
                   <div class="input-group-prepend">
                     <button class="btn btn-light" type="button" id="button-plus"> + </button>
@@ -160,7 +160,8 @@ include "header.php";
                     <button class="btn btn-light" type="button" id="button-minus"> &minus; </button>
                   </div>
                 </div>
-            </div> <!-- col.// -->
+            </div>--> <!-- col.// -->
+            <input type="hidden" id="itemQty" name="itemQty" class="form-control" value="1">
             <div class="form-group col-md">
                 <button class="btn btn-primary" type="submit" name="add_to_cart"><i class="fas fa-shopping-cart"></i> <span class="text">Add to cart</span></button>
             </div> <!-- col.// -->

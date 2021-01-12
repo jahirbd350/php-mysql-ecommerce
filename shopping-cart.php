@@ -14,7 +14,7 @@ if(isset($_GET["action"]))
             if($values["item_id"] == $_GET["id"])
             {
                 unset($_SESSION["shopping_cart"][$keys]);
-                echo '<script>alert("Item Removed")</script>';
+                //echo '<script>alert("Item Removed")</script>';
                 //echo '<script>window.location="index.php"</script>';
             }
         }
@@ -71,7 +71,7 @@ include 'header.php';
                                         <div class="input-group-prepend">
                                             <button class="btn btn-light" type="button" id="button-minus"> - </button>
                                         </div>
-                                        <input type="text" id="itemQty" name="itemQty" class="form-control" value="1">
+                                        <input type="text" id="itemQty" name="itemQty" class="form-control itemQty" value="1">
                                         <div class="input-group-append">
                                             <button class="btn btn-light" type="button" id="button-plus"> + </button>
                                         </div>
@@ -80,14 +80,14 @@ include 'header.php';
                             </td>
                             <td>
                                 <div class="price-wrap">
-                                    <var class="price" id="itemPrice"><?php echo $productDetails['unit_price'] ?> BDT</var>
-                                    <small class="text-muted" id="unitPrice"> <?php echo $productDetails['unit_price'] ?></small>
+                                    <p class="d-inline" >BDT </p><var class="itemPrice price" id="itemPrice" style="display: inline"><?php echo $productDetails['unit_price'] ?></var>
+                                    <p class="d-inline small" >BDT </p><small class="text-muted" id="unitPrice"> <?php echo $productDetails['unit_price'] ?></small>
                                 </div> <!-- price-wrap .// -->
                             </td>
                             <td class="text-right">
-                                <a data-original-title="Save to Wishlist" title="" href="#" class="btn btn-light" data-toggle="tooltip">
+                                <a data-original-title="Save to Wishlist" title="" href="#" class="btn btn-outline-primary" data-toggle="tooltip">
                                     <i class="fa fa-heart"></i></a>
-                                <a href="?action=deleteCartItem&&id=<?php echo $row["item_id"]?>" class="btn btn-light"> Remove</a>
+                                <a href="?action=deleteCartItem&&id=<?php echo $row["item_id"]?>" class="btn btn-outline-primary"> <i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php } ?>
@@ -125,15 +125,15 @@ include 'header.php';
                     <div class="card-body">
                         <dl class="dlist-align">
                             <dt>Total price:</dt>
-                            <dd class="text-right">USD 568</dd>
+                            <dd class="text-right" id="totalPrice"></dd>
                         </dl>
                         <dl class="dlist-align">
                             <dt>Discount:</dt>
-                            <dd class="text-right">USD 658</dd>
+                            <dd class="text-right" id="discount">BDT 0</dd>
                         </dl>
                         <dl class="dlist-align">
                             <dt>Total:</dt>
-                            <dd class="text-right  h5"><strong>$1,650</strong></dd>
+                            <dd class="text-right h6" id="grandTotal"></dd>
                         </dl>
                         <hr>
                         <p class="text-center mb-3">
@@ -177,54 +177,45 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 ?>
 <script>
     $(document).ready(function (){
+        calculateSum();
+
         $('#shoppingCart tr').each(function(){
             $(this).find('#button-minus').on('click',function () {
-                var qty = $('#itemQty').val();
+                var parent_element = $(this).closest("tr");
+                var qty = $(parent_element).find("#itemQty").val();
                 if (qty > 1) {
                     qty--;
-                    $('#itemQty').val(qty);
+                    $(parent_element).find("#itemQty").val(qty);
                 }
-                var unitprice = $('#unitPrice').text();
+                var unitprice = $(parent_element).find('#unitPrice').text();
 
-                $('#itemPrice').text(qty * unitprice);
-
-                console.log(qty);
+                $(parent_element).find('#itemPrice').text(qty * unitprice);
+                calculateSum();
             })
 
             $(this).find('#button-plus').on('click',function () {
-                    var qty = $('#itemQty').val();
-                    qty++;
-                    $('#itemQty').val(qty);
+                var parent_element = $(this).closest("tr");
+                var qty = $(parent_element).find("#itemQty").val();
+                qty++;
+                $(parent_element).find("#itemQty").val(qty);
+                var unitprice = $(parent_element).find('#unitPrice').text();
 
-                    var unitprice = $('#unitPrice').text();
-
-                    $('#itemPrice').text(qty * unitprice);
-
-                    console.log(qty);
+                $(parent_element).find('#itemPrice').text(qty * unitprice);
+                calculateSum();
             })
         })
-
-
-
-        $('.edition').on('click',function (){
-            $('#editModel').modal('show');
-
-            var id=$(this).data('id');
-
-            $.ajax({
-                url:"fetchCategory.php",
-                method:"POST",
-                data:{id:id},
-                dataType:"JSON",
-                success:function(data)
-                {
-                    $('#update_id').val(data.category_id);
-                    $('#category_name').val(data.category_name);
-                    $('#category_description').val(data.category_description);
-                    $('#inputImage').attr('src', data.category_image);
-                    //console.log(data);
-                }
+        function calculateSum() {
+            var total = 0;
+            var discount = 50;
+            var grandTotal = 0;
+            $('.itemPrice').each(function () {
+                var unitprice = parseFloat($(this).text());
+                total += unitprice;
+                $('#totalPrice').text('BDT '+total);
             })
-        });
+            grandTotal =total-discount;
+            $('#discount').text('BDT '+discount);
+            $('#grandTotal').text('BDT '+grandTotal);
+        }
     });
 </script>

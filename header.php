@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -87,37 +86,46 @@
                                     } ?>
                                 </span>
                                 <div class="dropdown-menu dropdown-menu-right" style="width: 400px;">
-                                    <?php if (isset($_SESSION["shopping_cart"])) { if (count($_SESSION["shopping_cart"])>0) { ?>
-                                        <table class="table table-striped">
-                                            <thead class="text-center">
-                                                <tr class="small text-uppercase">
-                                                    <th>Product</th>
-                                                    <th>Unit Price</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php foreach ($_SESSION["shopping_cart"] as $row) {                                            ?>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" class="title text-dark"><?php echo $row["item_name"]?></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="price-wrap">
-                                                            <var class="price"><?php echo $row['item_price'] ?> BDT</var>
-                                                        </div> <!-- price-wrap .// -->
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="?action=deleteCartItem&&id=<?php echo $row["item_id"]?>"> <i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                            <?php } ?>
-                                            </tbody>
-                                        </table>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-center" href="shopping-cart.php"><button class="btn btn-outline-primary">Open Cart</button></a>
+                                    <?php
+                                        if (isset($_SESSION["shopping_cart"])) {
+                                            if (count($_SESSION["shopping_cart"])>0) {
+                                    ?>
+                                                <table class="table table-striped">
+                                                    <thead class="text-center">
+                                                        <tr class="small text-uppercase">
+                                                            <th>Product</th>
+                                                            <th>Unit Price</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach ($_SESSION["shopping_cart"] as $row) { ?>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="#" class="title text-dark"><?php echo $row["item_name"]?></a>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="price-wrap">
+                                                                        <var class="price"><?php echo $row['item_price'] ?> BDT</var>
+                                                                    </div> <!-- price-wrap .// -->
+                                                                </td>
+                                                                <!--<input type="hidden" name="item_id" value="<?php /*echo $row["item_id"]*/?>">-->
+                                                                <td class="text-center">
+                                                                    <a href="?action=deleteCartItem&&product_id=<?php echo $row["item_id"]?>"> <i class="fas fa-trash"></i></a>
+                                                                    <!--<button type="submit" name="deleteCartItem"></button>-->
+                                                                </td>
+                                                            </tr>
+
+                                                    <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item text-center" href="shopping-cart.php"><button class="btn btn-outline-primary">Open Cart</button></a>
+                                        <?php } else { ?>
+                                            <h5 class="text-center text-primary">Nothing in the shopping cart!</h5>
                                     <?php } } else { ?>
-                                        <h4 class="text-center text-primary">Nothing in the shopping cart!</h4>
+                                        <h5 class="text-center text-primary">Nothing in the shopping cart!</h5>
                                     <?php } ?>
                                 </div>
                             </div>

@@ -13,13 +13,58 @@ $categoryinfo = mysqli_fetch_assoc($category->categoryInfoById($category_id));
 $subCategory = new SubCategory();
 $subCategoryInfo = $subCategory->subCategoryByCategoryId($category_id);
 
+$product = new Product();
+$produtInfo = $product->productByCategory($category_id);
+
+if(isset($_POST["add_to_cart"]))
+{
+    /*echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';*/
+
+    $product = new Product();
+    $produtById = $product->ProductDetailsInfo($_POST['product_id']);
+    $produtInfoById = mysqli_fetch_assoc($produtById);
+
+    if(isset($_SESSION["shopping_cart"]))
+    {
+        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
+        if(!in_array($_POST["product_id"], $item_array_id))
+        {
+            $count = count($_SESSION["shopping_cart"]);
+            $item_array = array(
+                'item_id'       =>  $produtInfoById["product_id"],
+                'item_name'     =>  $produtInfoById["product_name"],
+                'item_price'    =>  $produtInfoById["unit_price"],
+                'item_quantity' =>  $_POST["itemQty"]
+            );
+            $_SESSION["shopping_cart"][$count] = $item_array;
+        }
+        else
+        {
+            echo '<script>alert("Item Already Added")</script>';
+            //echo '<script>window.location="index.php"</script>';
+        }
+    }
+    else
+    {
+        $item_array = array(
+            'item_id'       =>  $produtInfoById["product_id"],
+            'item_name'     =>  $produtInfoById["product_name"],
+            'item_price'    =>  $produtInfoById["unit_price"],
+            'item_quantity' =>  $_POST["itemQty"]
+        );
+        $_SESSION["shopping_cart"][0] = $item_array;
+    }
+}
+
 if(isset($_GET["action"]))
 {
     if($_GET["action"] == "deleteCartItem")
     {
         foreach($_SESSION["shopping_cart"] as $keys => $values)
         {
-            if($values["item_id"] == $_GET["id"])
+            if($values["item_id"] == $_GET["product_id"])
             {
                 unset($_SESSION["shopping_cart"][$keys]);
                 //echo '<script>alert("Item Removed")</script>';
@@ -64,14 +109,14 @@ if(isset($_GET["action"]))
 		</header>
 		<div class="filter-content collapse show" id="collapse_1" style="">
 			<div class="card-body">
-				<form class="pb-3">
+				<!--<form class="pb-3">
 				<div class="input-group">
 				  <input type="text" class="form-control" placeholder="Search">
 				  <div class="input-group-append">
 				    <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
 				  </div>
 				</div>
-				</form>
+				</form>-->
 				
 				<ul class="list-menu">
                     <?php
@@ -231,25 +276,32 @@ if(isset($_GET["action"]))
 </header><!-- sect-heading -->
 
 <div class="row">
-	<div class="col-md-4">
-		<figure class="card card-product-grid">
-			<div class="img-wrap"> 
-				<span class="badge badge-danger"> NEW </span>
-				<img src="images/items/1.jpg">
-				<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-			</div> <!-- img-wrap.// -->
-			<figcaption class="info-wrap">
-				<div class="fix-height">
-					<a href="#" class="title">Great item name goes here</a>
-					<div class="price-wrap mt-2">
-						<span class="price">$1280</span>
-						<del class="price-old">$1980</del>
-					</div> <!-- price-wrap.// -->
-				</div>
-				<a href="#" class="btn btn-block btn-primary">Add to cart </a>
-			</figcaption>
-		</figure>
-	</div> <!-- col.// -->
+    <?php while ($produtInfoDetails = mysqli_fetch_assoc($produtInfo)) { ?>
+        <div class="col-md-4">
+            <figure class="card card-product-grid">
+                <div class="img-wrap">
+                    <span class="badge badge-danger"> NEW </span>
+                    <img src="admin/<?php echo $produtInfoDetails['product_image']?>" alt="">
+                    <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+                </div> <!-- img-wrap.// -->
+                <figcaption class="info-wrap">
+                    <div class="fix-height">
+                        <a href="#" class="title"><?php echo $produtInfoDetails['product_name']?></a>
+                        <div class="price-wrap mt-2">
+                            <span class="price"><?php echo $produtInfoDetails['unit_price']?></span>
+                            <!--<del class="price-old">$1980</del>-->
+                        </div> <!-- price-wrap.// -->
+                    </div>
+                    <form action="" method="post">
+                        <input type="hidden" name="product_id" value="<?php echo $produtInfoDetails['product_id']?>">
+                        <input type="hidden" id="itemQty" name="itemQty" value="1">
+                        <button class="btn btn-block btn-primary" type="submit" name="add_to_cart"><i class="fas fa-shopping-cart"></i> <span class="text">Add to cart</span></button>
+                        <!--<a href="" class="btn btn-block btn-primary">Add to cart </a>-->
+                    </form>
+                </figcaption>
+            </figure>
+        </div> <!-- col.// -->
+    <?php } ?>
 
 	<div class="col-md-4">
 		<figure class="card card-product-grid">

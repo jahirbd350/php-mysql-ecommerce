@@ -11,7 +11,7 @@ if(isset($_GET["action"]))
     {
         foreach($_SESSION["shopping_cart"] as $keys => $values)
         {
-            if($values["item_id"] == $_GET["id"])
+            if($values["item_id"] == $_GET["product_id"])
             {
                 unset($_SESSION["shopping_cart"][$keys]);
                 //echo '<script>alert("Item Removed")</script>';
@@ -206,7 +206,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         })
         function calculateSum() {
             var total = 0;
-            var discount = 50;
+            var discount = 0;
             var grandTotal = 0;
             $('.itemPrice').each(function () {
                 var unitprice = parseFloat($(this).text());

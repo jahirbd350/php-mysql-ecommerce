@@ -73,4 +73,13 @@ class Product
             die('ProductDetailsInfo Query error : '.mysqli_error($this->link));
         }
     }
+
+    public function productByCategory($category_id){
+        $sql ="SELECT * FROM products WHERE product_is_active=1 AND category_id='$category_id'";
+        if (mysqli_query($this->link, $sql)){
+            return mysqli_query($this->link, $sql);
+        } else {
+            die('allActiveProduct Query error : '.mysqli_error($this->link));
+        }
+    }
 }

@@ -113,15 +113,12 @@ include 'header.php';
                 <span class="sr-only">Next</span>
             </a>
         </div>
-
     </div> <!-- container //  -->
 </section>
 
 <section class="section-content padding-y-sm">
     <div class="container">
         <article class="card card-body">
-
-
             <div class="row">
                 <div class="col-md-4">
                     <figure class="item-feature">
@@ -155,30 +152,26 @@ include 'header.php';
                 </div> <!-- col // -->
             </div>
         </article>
-
     </div> <!-- container .//  -->
 </section>
 
 <section class="section-content">
     <div class="container">
-
         <header class="section-heading">
             <h3 class="section-title">Popular products</h3>
         </header><!-- sect-heading -->
-
-
         <div class="row">
             <?php while ($popularProducts = mysqli_fetch_assoc($allProducts)) {?>
-            <div class="col-md-3">
-                <div href="#" class="card card-product-grid">
-                    <a href="product_details.php?id=<?php echo $popularProducts['product_id']; ?>" class="text-center"> <img src="admin/<?php echo $popularProducts['product_image'];?>" alt="" height="220 px" width="220 px"> </a>
-                    <figcaption class="info-wrap">
-                        <a href="product_details.php?id=<?php echo $popularProducts['product_id']; ?>" class="title"><?php echo $popularProducts['product_name']; ?></a>
-                        <div class="price mt-1">Product code: <?php echo $popularProducts['product_code']; ?></div> <!-- price-wrap.// -->
-                        <div class="price mt-1"><?php echo $popularProducts['unit_price']; ?> BDT</div> <!-- price-wrap.// -->
-                    </figcaption>
-                </div>
-            </div> <!-- col.// -->
+                <div class="col-md-3">
+                    <div href="#" class="card card-product-grid">
+                        <a href="product_details.php?product_id=<?php echo $popularProducts['product_id']; ?>" class="text-center"> <img src="admin/<?php echo $popularProducts['product_image'];?>" alt="" height="220 px" width="220 px"> </a>
+                        <figcaption class="info-wrap">
+                            <a href="product_details.php?product_id=<?php echo $popularProducts['product_id']; ?>" class="title"><?php echo $popularProducts['product_name']; ?></a>
+                            <div class="price mt-1">Product code: <?php echo $popularProducts['product_code']; ?></div> <!-- price-wrap.// -->
+                            <div class="price mt-1"><?php echo $popularProducts['unit_price']; ?> BDT</div> <!-- price-wrap.// -->
+                        </figcaption>
+                    </div>
+                </div> <!-- col.// -->
             <?php } ?>
 
             <div class="col-md-3">

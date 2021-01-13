@@ -1,15 +1,34 @@
 <?php
 session_start();
-$product_id = $_GET['id'];
-
 include 'vendor/autoload.php';
 use App\classes\Product;
+
+if (isset($_GET['product_id'])){
+    $product_id = $_GET['product_id'];
+} else {
+    header('location: index.php');
+}
+
+
 $product = new Product();
 $productInfo = $product->ProductDetailsInfo($product_id);
 $productDetails = mysqli_fetch_assoc($productInfo);
 /*echo '<pre>';
 print_r($productDetails);
 echo '</pre>';*/
+
+/*if (isset($_POST['deleteCartItem'])){
+    foreach($_SESSION["shopping_cart"] as $keys => $values)
+    {
+        if($values["item_id"] == $_POST['item_id'])
+        {
+            unset($_SESSION["shopping_cart"][$keys]);
+            //echo '<script>alert("Item Removed")</script>';
+            //echo '<script>window.location="product_details.php"</script>';
+        }
+    }
+}*/
+
 
 if(isset($_POST["add_to_cart"]))
 {
@@ -21,14 +40,14 @@ echo '</pre>';*/
     if(isset($_SESSION["shopping_cart"]))
     {
         $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
-        if(!in_array($_GET["id"], $item_array_id))
+        if(!in_array($_GET["product_id"], $item_array_id))
         {
             $count = count($_SESSION["shopping_cart"]);
             $item_array = array(
-                'item_id'               =>     $productDetails["product_id"],
-                'item_name'               =>     $productDetails["product_name"],
-                'item_price'          =>     $productDetails["unit_price"],
-                'item_quantity'          =>     $_POST["itemQty"]
+                'item_id'       =>  $productDetails["product_id"],
+                'item_name'     =>  $productDetails["product_name"],
+                'item_price'    =>  $productDetails["unit_price"],
+                'item_quantity' =>  $_POST["itemQty"]
             );
             $_SESSION["shopping_cart"][$count] = $item_array;
         }
@@ -41,10 +60,10 @@ echo '</pre>';*/
     else
     {
         $item_array = array(
-            'item_id'               =>     $productDetails["product_id"],
-            'item_name'               =>     $productDetails["product_name"],
-            'item_price'          =>     $productDetails["unit_price"],
-            'item_quantity'          =>     $_POST["itemQty"]
+            'item_id'       =>  $productDetails["product_id"],
+            'item_name'     =>  $productDetails["product_name"],
+            'item_price'    =>  $productDetails["unit_price"],
+            'item_quantity' =>  $_POST["itemQty"]
         );
         $_SESSION["shopping_cart"][0] = $item_array;
     }
@@ -56,7 +75,7 @@ if(isset($_GET["action"]))
     {
         foreach($_SESSION["shopping_cart"] as $keys => $values)
         {
-            if($values["item_id"] == $_GET["id"])
+            if($values["item_id"] == $_GET["product_id"])
             {
                 unset($_SESSION["shopping_cart"][$keys]);
                 //echo '<script>alert("Item Removed")</script>';
@@ -90,7 +109,7 @@ include "header.php";
 <div class="card">
 <article class="gallery-wrap"> 
 	<div class="img-big-wrap">
-	  <div> <a href="#"><img src="admin/<?php echo $productDetails['product_image'];?>"></a></div>
+	  <div> <a href="#"><img src="admin/<?php echo $productDetails['product_image']; ?>"></a></div>
 	</div> <!-- slider-product.// -->
 	<div class="thumbs-wrap">
 	  <!--<a href="#" class="item-thumb"> <img src="images/items/15.jpg"></a>

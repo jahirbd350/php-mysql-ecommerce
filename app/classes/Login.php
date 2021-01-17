@@ -99,6 +99,16 @@ class Login extends Database
         return $message;
     }
 
+    public function getUserDetails($user_id){
+        $sql = "SELECT * FROM users WHERE id = '$user_id'";
+        if (mysqli_query($this->link,$sql)){
+            return mysqli_query($this->link,$sql);
+        } else {
+            die('getUserDetails Query Problem: '.mysqli_error($this->link));
+        }
+
+    }
+
     public static function userLogout()
     {
         session_destroy();

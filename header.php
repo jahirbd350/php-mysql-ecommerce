@@ -133,13 +133,17 @@
                         <?php if (isset($_SESSION['user_id'])){ ?>
                             <div class="widget-header icontext">
                                 <div class="text">
-                                    <span class="text-muted">Welcome!</span>
                                     <div class="dropdown">
-                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <?php echo $_SESSION['name']; ?>
+                                        <button class="icon icon-sm rounded-circle border" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-user"></i>
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+
+                                            <a class="dropdown-item" href="#"><?php echo $_SESSION['name']?></a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="user_profile.php">My Account</a>
                                             <a class="dropdown-item" href="?status=logout">Logout</a>
+
                                         </div>
                                     </div>
                                 </div>

@@ -15,7 +15,7 @@ if(isset($_GET["action"]))
             {
                 unset($_SESSION["shopping_cart"][$keys]);
                 //echo '<script>alert("Item Removed")</script>';
-                //echo '<script>window.location="index.php"</script>';
+                //echo '<script>window.location="product_details.php"</script>';
             }
         }
     }
@@ -87,7 +87,7 @@ include 'header.php';
                             <td class="text-right">
                                 <a data-original-title="Save to Wishlist" title="" href="#" class="btn btn-outline-primary" data-toggle="tooltip">
                                     <i class="fa fa-heart"></i></a>
-                                <a href="?action=deleteCartItem&&id=<?php echo $row["item_id"]?>" class="btn btn-outline-primary"> <i class="fa fa-trash"></i></a>
+                                <a href="?action=deleteCartItem&&product_id=<?php echo $row["item_id"]?>" class="btn btn-outline-primary"> <i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php } ?>

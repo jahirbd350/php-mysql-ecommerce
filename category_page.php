@@ -4,8 +4,11 @@ include 'vendor/autoload.php';
 use App\classes\Category;
 use App\classes\Product;
 use App\classes\SubCategory;
+use App\classes\Cart;
 
 $category_id = $_GET['category_id'];
+
+$_SESSION['category_id'] = $category_id;
 
 $category = new Category();
 $categoryinfo = mysqli_fetch_assoc($category->categoryInfoById($category_id));
@@ -14,63 +17,23 @@ $subCategory = new SubCategory();
 $subCategoryInfo = $subCategory->subCategoryByCategoryId($category_id);
 
 $product = new Product();
-$produtInfo = $product->productByCategory($category_id);
+$productInfo = $product->productByCategory($category_id);
+$numOfProducts = mysqli_num_rows($productInfo);
 
 if(isset($_POST["add_to_cart"]))
 {
     /*echo '<pre>';
     print_r($_POST);
     echo '</pre>';*/
+    Cart::addToCart();
 
-    $product = new Product();
-    $produtById = $product->ProductDetailsInfo($_POST['product_id']);
-    $produtInfoById = mysqli_fetch_assoc($produtById);
-
-    if(isset($_SESSION["shopping_cart"]))
-    {
-        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
-        if(!in_array($_POST["product_id"], $item_array_id))
-        {
-            $count = count($_SESSION["shopping_cart"]);
-            $item_array = array(
-                'item_id'       =>  $produtInfoById["product_id"],
-                'item_name'     =>  $produtInfoById["product_name"],
-                'item_price'    =>  $produtInfoById["unit_price"],
-                'item_quantity' =>  $_POST["itemQty"]
-            );
-            $_SESSION["shopping_cart"][$count] = $item_array;
-        }
-        else
-        {
-            echo '<script>alert("Item Already Added")</script>';
-            //echo '<script>window.location="index.php"</script>';
-        }
-    }
-    else
-    {
-        $item_array = array(
-            'item_id'       =>  $produtInfoById["product_id"],
-            'item_name'     =>  $produtInfoById["product_name"],
-            'item_price'    =>  $produtInfoById["unit_price"],
-            'item_quantity' =>  $_POST["itemQty"]
-        );
-        $_SESSION["shopping_cart"][0] = $item_array;
-    }
 }
 
 if(isset($_GET["action"]))
 {
     if($_GET["action"] == "deleteCartItem")
     {
-        foreach($_SESSION["shopping_cart"] as $keys => $values)
-        {
-            if($values["item_id"] == $_GET["product_id"])
-            {
-                unset($_SESSION["shopping_cart"][$keys]);
-                //echo '<script>alert("Item Removed")</script>';
-                //echo '<script>window.location="product_details.php"</script>';
-            }
-        }
+        Cart::removeFromCart();
     }
 }
 
@@ -259,7 +222,7 @@ if(isset($_GET["action"]))
 
 <header class="border-bottom mb-4 pb-3">
 		<div class="form-inline">
-			<span class="mr-md-auto">32 Items found </span>
+			<span class="mr-md-auto"><?php echo $numOfProducts; ?> Items found </span>
 			<select class="mr-2 form-control">
 				<option>Latest items</option>
 				<option>Trending</option>
@@ -276,7 +239,7 @@ if(isset($_GET["action"]))
 </header><!-- sect-heading -->
 
 <div class="row">
-    <?php while ($produtInfoDetails = mysqli_fetch_assoc($produtInfo)) { ?>
+    <?php while ($produtInfoDetails = mysqli_fetch_assoc($productInfo)) { ?>
         <div class="col-md-4">
             <figure class="card card-product-grid">
                 <div class="img-wrap">
@@ -286,7 +249,7 @@ if(isset($_GET["action"]))
                 </div> <!-- img-wrap.// -->
                 <figcaption class="info-wrap">
                     <div class="fix-height">
-                        <a href="#" class="title"><?php echo $produtInfoDetails['product_name']?></a>
+                        <a href="product_details.php?product_id=<?php echo $produtInfoDetails['product_id']; ?>" class="title"><?php echo $produtInfoDetails['product_name']?></a>
                         <div class="price-wrap mt-2">
                             <span class="price"><?php echo $produtInfoDetails['unit_price']?></span>
                             <!--<del class="price-old">$1980</del>-->

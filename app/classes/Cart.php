@@ -6,7 +6,7 @@ namespace App\classes;
 
 class Cart
 {
-    public function addToCart(){
+    public static function addToCart(){
         $product = new Product();
         $produtById = $product->ProductDetailsInfo($_POST['product_id']);
         $produtInfoById = mysqli_fetch_assoc($produtById);
@@ -43,7 +43,7 @@ class Cart
         }
     }
 
-    public function removeFromCart(){
+    public static function removeFromCart(){
         foreach($_SESSION["shopping_cart"] as $keys => $values)
         {
             if($values["item_id"] == $_GET["product_id"])

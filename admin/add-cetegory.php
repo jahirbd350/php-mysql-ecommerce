@@ -213,7 +213,6 @@ $allCategory = Category::allCategoryInfo();
                     </div>
                 </div>
             </div>
-
 <?php
 include 'footer_admin.php';
 ?>
@@ -240,5 +239,5 @@ include 'footer_admin.php';
                 }
             })
         });
-        });
+    });
 </script>

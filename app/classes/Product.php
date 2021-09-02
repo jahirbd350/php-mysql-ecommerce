@@ -82,4 +82,45 @@ class Product
             die('allActiveProduct Query error : '.mysqli_error($this->link));
         }
     }
+
+    public static function unpublishProduct($id){
+        $link = Database::db_connect();
+        $sql = "UPDATE products SET product_is_active=0 WHERE product_id=$id";
+        if (mysqli_query($link,$sql)){
+            return 'Product Info Unpublished successfully!';
+        } else {
+            die('Unpublish Product query error : '.mysqli_error($link));
+        }
+    }
+
+    public static function publishProduct($id){
+        $link = Database::db_connect();
+        $sql = "UPDATE products SET product_is_active=1 WHERE product_id=$id";
+        if (mysqli_query($link,$sql)){
+            return 'Product Info Unpublished successfully!';
+        } else {
+            die('Publish Product query error : '.mysqli_error($link));
+        }
+    }
+
+    public static function deleteProductInfo($id){
+        $link = Database::db_connect();
+        $sql = "DELETE FROM products WHERE product_id=$id";
+        if (mysqli_query($link,$sql)){
+            return 'Product Info Deleted Successfully!';
+        } else {
+            die('Product delete query problem : '.mysqli_error($link));
+        }
+    }
+
+    public static function allProductInfo()
+    {
+        $link = Database::db_connect();
+        $sql = "SELECT * FROM products";
+        if (mysqli_query($link,$sql)){
+            return mysqli_query($link,$sql);
+        } else {
+            die('All Product Info Query Error : '.mysqli_error($link));
+        }
+    }
 }
